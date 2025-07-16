@@ -34,7 +34,7 @@
       "description": "AI-powered data optimization company",
       "position": "Senior Engineering Manager",
       "url": "http://nucleuslabs.example.com",
-      "startDate": "2023-01",
+      "startDate": "2023",
       "endDate": null,
       "summary": "Currently leading a team of engineers developing next-generation AI algorithms for data compression and optimization.",
       "highlights": [
@@ -140,7 +140,7 @@
   "awards": [
     {
       "title": "Digital Compression Pioneer Award",
-      "date": "2014-11-01",
+      "date": "2014",
       "awarder": "Techcrunch",
       "summary": "There is no spoon."
     },
