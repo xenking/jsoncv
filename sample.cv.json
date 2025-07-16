@@ -115,7 +115,7 @@
       "url": "https://www.ou.edu/",
       "area": "Information Technology",
       "studyType": "Bachelor",
-      "startDate": "2011-06-01",
+      "startDate": "2011",
       "endDate": "2014-01-01",
       "score": "4.0",
       "courses": [
@@ -155,7 +155,7 @@
     {
       "name": "Video compression for 3d media",
       "publisher": "Hooli",
-      "releaseDate": "2014-10-01",
+      "releaseDate": "2014-10",
       "url": "http://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
       "summary": "Innovative middle-out compression algorithm that changes the way we store data."
     },

@@ -33,8 +33,28 @@ function dateRange(item, level) {
       break;
   }
   if (format) {
-    startDate = startDate ? fn.reformatDate(startDate, format) : ''
-    endDate = endDate ? fn.reformatDate(endDate, format) : ''
+    // Handle YYYY-only and YYYY-MM dates
+    if (startDate && /^\d{4}$/.test(startDate)) {
+      // YYYY format - return as-is
+      startDate = startDate
+    } else if (startDate && /^\d{4}-\d{2}$/.test(startDate)) {
+      // YYYY-MM format - format as MMM YYYY
+      startDate = fn.reformatDate(startDate, 'MMM YYYY')
+    } else {
+      // Other formats (YYYY-MM-DD, etc.)
+      startDate = startDate ? fn.reformatDate(startDate, format) : ''
+    }
+    
+    if (endDate && /^\d{4}$/.test(endDate)) {
+      // YYYY format - return as-is
+      endDate = endDate
+    } else if (endDate && /^\d{4}-\d{2}$/.test(endDate)) {
+      // YYYY-MM format - format as MMM YYYY
+      endDate = fn.reformatDate(endDate, 'MMM YYYY')
+    } else {
+      // Other formats (YYYY-MM-DD, etc.)
+      endDate = endDate ? fn.reformatDate(endDate, format) : ''
+    }
   }
   let result = ''
   if (startDate && endDate) {
@@ -49,8 +69,8 @@ function dateRange(item, level) {
 %>
 
 <%
-function date(item, level) {
-  let {date} = item
+function date(item, level, fieldName = 'date') {
+  let date = item[fieldName]
   if (!date) return ''
   let format
   // level: 1: year, 2: month, 3: day
@@ -63,7 +83,17 @@ function date(item, level) {
       break;
   }
   if (format) {
-    date = date ? fn.reformatDate(date, format) : ''
+    // Handle YYYY-only and YYYY-MM dates
+    if (/^\d{4}$/.test(date)) {
+      // YYYY format - return as-is
+      date = date
+    } else if (/^\d{4}-\d{2}$/.test(date)) {
+      // YYYY-MM format - format as MMM YYYY
+      date = fn.reformatDate(date, 'MMM YYYY')
+    } else {
+      // Other formats (YYYY-MM-DD, etc.)
+      date = date ? fn.reformatDate(date, format) : ''
+    }
   }
   return `<div class="date-range">${date}</div>`
 }
@@ -382,7 +412,7 @@ function date(item, level) {
     <div class="publication section-item">
       <div class="row space-between">
         <h3><%= item.name %></h3>
-        <%- date(item, 2) %>
+        <%- date(item, 2, 'releaseDate') %>
       </div>
       <div class="publisher row subtitle"><%= item.publisher %></div>
       <%- linkInDiv(item.url) %>
