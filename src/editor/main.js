@@ -102,6 +102,10 @@ for (const [key, format] of Object.entries(keyFormatMap)) {
   objectPath.get(jsoncvSchema.properties, key).format = format
 }
 
+// Override date format to use text input instead of HTML date input
+// This allows partial dates (YYYY, YYYY-MM, YYYY-MM-DD) as supported by the schema pattern
+jsoncvSchema.definitions.iso8601.format = 'text'
+
 // change schema title
 jsoncvSchema.title = 'CV Schema'
 

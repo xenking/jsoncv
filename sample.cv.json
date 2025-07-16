@@ -29,6 +29,21 @@
   },
   "work": [
     {
+      "name": "Nucleus Labs",
+      "location": "San Francisco, CA",
+      "description": "AI-powered data optimization company",
+      "position": "Senior Engineering Manager",
+      "url": "http://nucleuslabs.example.com",
+      "startDate": "2023-01",
+      "endDate": null,
+      "summary": "Currently leading a team of engineers developing next-generation AI algorithms for data compression and optimization.",
+      "highlights": [
+        "Architected scalable ML pipelines processing 10TB+ daily",
+        "Built and mentored a team of 12 engineers",
+        "Launched 3 major product features used by Fortune 500 clients"
+      ]
+    },
+    {
       "name": "Pied Piper",
       "location": "Palo Alto, CA",
       "description": "Awesome compression company (second position)",
