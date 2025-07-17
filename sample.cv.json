@@ -34,7 +34,7 @@
       "description": "AI-powered data optimization company",
       "position": "Senior Engineering Manager",
       "url": "http://nucleuslabs.example.com",
-      "startDate": "2023-01",
+      "startDate": "2023",
       "endDate": null,
       "summary": "Currently leading a team of engineers developing next-generation AI algorithms for data compression and optimization.",
       "highlights": [
@@ -115,7 +115,7 @@
       "url": "https://www.ou.edu/",
       "area": "Information Technology",
       "studyType": "Bachelor",
-      "startDate": "2011-06-01",
+      "startDate": "2011",
       "endDate": "2014-01-01",
       "score": "4.0",
       "courses": [
@@ -140,7 +140,7 @@
   "awards": [
     {
       "title": "Digital Compression Pioneer Award",
-      "date": "2014-11-01",
+      "date": "2014",
       "awarder": "Techcrunch",
       "summary": "There is no spoon."
     },
@@ -155,7 +155,7 @@
     {
       "name": "Video compression for 3d media",
       "publisher": "Hooli",
-      "releaseDate": "2014-10-01",
+      "releaseDate": "2014-10",
       "url": "http://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
       "summary": "Innovative middle-out compression algorithm that changes the way we store data."
     },
