@@ -1,10 +1,10 @@
-import * as mdiJSON from '@iconify/json/json/mdi.json';
 import {
   getIconData,
   iconToSVG,
   replaceIDs,
   stringToIcon,
 } from '@iconify/utils';
+import mdiJSON from '@iconify/json/json/mdi.json' with { type: 'json' };
 
 const svgAttributesBase = {
   'xmlns': 'http://www.w3.org/2000/svg',

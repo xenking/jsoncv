@@ -2,6 +2,7 @@
   "name": "jsoncv",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
@@ -16,10 +17,10 @@
     "ajv-cli": "^5.0.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
-    "vite": "^4.1.1",
-    "vite-plugin-ejs": "^1.6.4",
+    "vite": "^7.3.0",
+    "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-handlebars": "^1.6.0",
-    "vite-plugin-singlefile": "^0.13.2"
+    "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
     "@iconify/json": "^2.2.15",

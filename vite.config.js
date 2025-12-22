@@ -1,4 +1,6 @@
-import { resolve } from 'path';
+import { createRequire } from 'module';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
 import { viteSingleFile } from 'vite-plugin-singlefile';
@@ -6,12 +8,15 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 import { TransformEjs } from './src/lib/vite-plugins';
 import { getRenderData } from './src/themes/data';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+
 const dataFilename = process.env.DATA_FILENAME || './sample.cv.json'
 const outDir = process.env.OUT_DIR || 'dist'
 
 const data = require(dataFilename)
 const renderData = getRenderData(data)
-renderData.theme = process.env.THEME || 'reorx'
+renderData.theme = process.env.THEME || 'xenking'
 renderData.isProduction = process.env.NODE_ENV === 'production'
 renderData.meta = {
   title: data.basics.name,
@@ -26,7 +31,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // remove the "Module "fs" has been externalized" warning for ejs
-      'fs': 'src/lib/fs-polyfill.js',
+      'fs': resolve(__dirname, 'src/lib/fs-polyfill.js'),
     },
   },
   plugins: [

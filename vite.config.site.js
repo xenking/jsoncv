@@ -1,27 +1,29 @@
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
 
 import { TransformEjs } from './src/lib/vite-plugins';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, 'src')
 const renderData = {
   meta: {
     title: "jsoncv",
     description: "A toolkit for building your CV with JSON and creating stylish HTML/PDF files.",
-    url: "https://jsoncv.reorx.com",
+    url: "https://jsoncv.xenking.pro",
     twitter: {
       card: "summary",
-      username: "novoreorx",
+      username: "xenking",
     }
   },
   editorMeta: {
     title: "jsoncv Editor",
     description: "The online editor of the jsoncv project.",
-    url: "https://jsoncv.reorx.com/editor/",
+    url: "https://jsoncv.xenking.pro/editor/",
     twitter: {
       card: "summary",
-      username: "novoreorx",
+      username: "xenking",
     }
   }
 }

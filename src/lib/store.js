@@ -4,7 +4,7 @@ export const storeKeys = {
   primaryColor: 'primary-color',
 }
 
-const defaultPrimaryColor = '#2A3FFB'
+const defaultPrimaryColor = '#000000'
 
 function updateSavedTime() {
   localStorage.setItem(storeKeys.cvSavedTime, Date.now())

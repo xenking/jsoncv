@@ -1,0 +1,176 @@
+<%
+function linkInDiv(url, text, className) {
+  if (!url) return ''
+  return `<a href="${url}" target="_blank" rel="noopener noreferrer nofollow ugc" class="${className || 'header-link'}"><span class="header-text">${text || fn.noSchemaURL(url)}</span></a>`
+}
+
+function formatLocation(loc) {
+  if (!loc) return ''
+  const items = [loc.city, loc.region, loc.countryCode].filter(Boolean)
+  return items.join(', ')
+}
+
+function dateRange(item) {
+  let {startDate, endDate} = item
+  if (!startDate) return ''
+  
+  const formatDate = (d) => {
+    if (/^\d{4}$/.test(d)) return d
+    if (/^\d{4}-\d{2}$/.test(d)) return fn.reformatDate(d, 'MMM YYYY')
+    return fn.reformatDate(d, 'MMM YYYY')
+  }
+
+  const start = formatDate(startDate)
+  const end = endDate ? formatDate(endDate) : 'Present'
+  
+  return `<span>${start} - ${end}</span>`
+}
+%>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="pdf-page-container">
+  <div class="pdf-page">
+    
+    <header class="pdf-resume-header header-title">
+      <div class="header-column">
+        <h1 class="header-title-text"><%= cv.basics.name %></h1>
+        <div class="header-row">
+          <% if (cv.basics.label) { %>
+            <div class="header-title-subtext"><%- cv.basics.label.split(' ').join('&nbsp;') %></div>
+          <% } %>
+          <% if (cv.basics.location) { %>
+            <div class="header-title-location"><%= formatLocation(cv.basics.location) %></div>
+          <% } %>
+        </div>
+      </div>
+      <div class="header-column">
+        <div class="header-row">
+          <div class="text-bold">Contacts</div>
+          <% if (cv.basics.email) { %>
+            <a href="mailto:<%= cv.basics.email %>" class="header-link"><span class="header-text"><%= cv.basics.email %></span></a>
+          <% } %>
+          <% if (cv.basics.profiles) { %>
+            <% cv.basics.profiles.forEach(function(profile){ %>
+              <%- linkInDiv(profile.url, fn.noSchemaURL(profile.url), 'header-link') %>
+            <% }) %>
+          <% } %>
+          <% if (cv.basics.url) { %>
+             <%- linkInDiv(cv.basics.url, fn.noSchemaURL(cv.basics.url), 'header-link') %>
+          <% } %>
+        </div>
+      </div>
+    </header>
+
+    <div class="pdf-page-column">
+      
+      <% if (cv.basics.summary) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Summary</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <div class="body-section-single-container">
+          <div class="body-section-single-flex">
+            <h2 class="body-section-single-text">
+              <%- fn.renderMarkdown(cv.basics.summary).replace(/<p>|<\/p>/g, '') %>
+            </h2>
+          </div>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (cv.work && cv.work.length) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Experience</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+
+        <% cv.work.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.position %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                at <%= item.name %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <div class="body-section-item-title-date"><%- dateRange(item) %></div>
+            </div>
+          </div>
+          <div>
+            <% if (item.summary) { %>
+              <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary).replace(/<p>|<\/p>/g, '').replace(/\n/g, '<br>') %></h3>
+            <% } %>
+            <% if (item.highlights && item.highlights.length) { %>
+              <ul class="body-section-item-list">
+                <% item.highlights.forEach(function(hl) { %>
+                  <li class="body-section-item-list-text"><%- fn.renderMarkdown(hl).replace(/<p>|<\/p>/g, '') %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.education && cv.education.length) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Education</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.education.forEach(function(item) { %>
+        <div class="body-section-single-container">
+          <div class="body-section-single-flex">
+            <h2 class="body-section-single-title"><%= item.studyType %> in <%= item.area %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-single-text"><%= item.institution %></h3>
+              <div class="body-section-single-delimeter"></div>
+              <div class="body-section-item-title-date"><%- dateRange(item) %></div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.skills && cv.skills.length) { %>
+      <section class="body-list-container">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Skills</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <div class="body-list">
+          
+          <% if (cv.languages && cv.languages.length) { %>
+          <div class="body-list-item">
+            <div class="body-list-item-title">
+              <div class="text-bold">Languages</div>
+            </div>
+            <div class="body-list-item-text"><%= cv.languages.map(l => `${l.language} - ${l.fluency}`).join(', ') %></div>
+          </div>
+          <% } %>
+
+          <% cv.skills.forEach(function(skill) { %>
+          <div class="body-list-item">
+            <div class="body-list-item-title">
+              <div class="text-bold"><%= skill.name %></div>
+            </div>
+            <div class="body-list-item-text"><%= skill.keywords.join(', ') %></div>
+          </div>
+          <% }) %>
+
+        </div>
+      </section>
+      <% } %>
+
+    </div>
+  </div>
+</div>

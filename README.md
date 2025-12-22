@@ -32,14 +32,14 @@ with the following differences:
 
 These differences do not impact the compatibility between jsoncv and JSON Resume. This means that you can easily import JSON Resume data into jsoncv and vice versa, as jsoncv data will pass the validation of JSON Resume Schema .
 
-The complete diff between the JSON Resume schema and the jsoncv schema can be viewed [here](https://github.com/reorx/jsoncv/compare/eabd65fd5a9a126e2de9e2955485c0dca4483c79...master#diff-3b8e847cb1664e291a7635b037a2f2bf831e1e9ce2d915fbfbba9ca77e2a1d1b)
+The complete diff between the JSON Resume schema and the jsoncv schema can be viewed [here](https://github.com/xenking/jsoncv/compare/eabd65fd5a9a126e2de9e2955485c0dca4483c79...master#diff-3b8e847cb1664e291a7635b037a2f2bf831e1e9ce2d915fbfbba9ca77e2a1d1b)
 
 ### Editor
 
 ![](images/editor.png)
 
 jsoncv comes with an online editor that provides a graphical user interface for creating and editing your jsoncv data.
-Visit it at https://jsoncv.reorx.com/editor/.
+Visit it at https://jsoncv.xenking.pro/editor/.
 
 The Editor consists of three panes, from left to right:
 
@@ -80,7 +80,7 @@ If you have any additional requirements, please feel free to submit an issue. Pu
 
 ### Write your CV
 
-It is recommended to write your CV using the online [Editor](https://jsoncv.reorx.com/editor/).
+It is recommended to write your CV using the online [Editor](https://jsoncv.xenking.pro/editor/).
 However, if you are comfortable with JSON, you can maintain the data file using a text editor on your local machine.
 
 When you open the Editor for the first time, a sample data is loaded.
@@ -147,9 +147,9 @@ please refer to the [Build a static CV site](#build-a-static-cv-site) section.
 
 The generated `index.html` file can be used anywhere and on any hosting platform.
 Simply upload it to a web server, and you will have your own online CV site.
-The built-in theme "reorx" also includes responsive support for mobile devices.
+The built-in theme "xenking" also includes responsive support for mobile devices.
 
-However, if you want extra customization, like the CV site at https://cv.reorx.com/
+However, if you want extra customization, like the CV site at https://cv.xenking.pro/
 which has a footer with links to the PDF file and the author's home page,
 you can follow these steps:
 
@@ -157,7 +157,7 @@ you can follow these steps:
 2. Add jsoncv as the submodule
 
     ```
-    git submodule add https://github.com/reorx/jsoncv.git
+    git submodule add https://github.com/xenking/jsoncv.git
     ```
 3. Put your CV data file, for example `cv.json`, in the project.
 4. Initialize `package.json` by running `npm init`.
@@ -183,7 +183,7 @@ jsoncv includes several built-in themes that you can use either directly in the 
 The file system hierarchy for themes is as follows:
 ```
 src/themes
-└── reorx
+└── xenking
     ├── index.ejs
     └── index.scss
 ```
@@ -200,7 +200,7 @@ The data that is passed to the template is structured as follows:
   - `getIconSVG`: gets the iconify SVG string or DOM element from the icon name
   - `noSchemaURL`: remove the schema (`https://`) prefix of the url
 
-For more information, see the complete definition in [src/themes/data.js](https://github.com/reorx/jsoncv/blob/master/src/themes/data.js).
+For more information, see the complete definition in [src/themes/data.js](https://github.com/xenking/jsoncv/blob/master/src/themes/data.js).
 
 Once you have created a new theme (let's use `yourtheme` as an example),
 you can start developing and previewing it by running the following code:
@@ -211,7 +211,7 @@ THEME=yourtheme npm run dev-site
 
 Pull requests for adding new themes are always welcomed.
 
-> You can just name the theme after your own name, this is what I did for the theme "reorx".
+> You can just name the theme after your own name, this is what I did for the theme "xenking".
 > Because I think that theme is tightly bound to the developer's aesthetic and personal taste,
 > and common words may not accurately represent the theme.
 
@@ -256,17 +256,10 @@ See [Does JavaScript guarantee object property order? - Stack Overflow](https://
 
 ## Credits
 
-jsoncv could not be made possible without these awesome projects below:
+jsoncv fork could not be made possible without these awesome projects below:
 
 - [JSON Resume](https://jsonresume.org/)
 - [json-editor](https://github.com/json-editor/json-editor)
 - [iconify](https://iconify.design/)
+- [jsoncv](https://github.com/reorx/jsoncv)
 
-
-## Donation
-
-If you think this project is enjoyable to use, or saves some time,
-consider giving me a cup of coffee :)
-
-- [GitHub Sponsors - reorx](https://github.com/sponsors/reorx/)
-- [Ko-Fi - reorx](https://ko-fi.com/reorx)

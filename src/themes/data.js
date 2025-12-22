@@ -27,6 +27,7 @@ export function getCVTitle(cv) {
 }
 
 function noSchemaURL(url) {
+  if (!url) return ''
   url = url.replace(/https?:\/\//, '')
   if (url.endsWith('/')) {
     url = url.slice(0, -1)
