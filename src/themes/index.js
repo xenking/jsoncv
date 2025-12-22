@@ -8,7 +8,7 @@ import {
 
 const themes = {}
 
-const themeNames = ['xenking']
+const themeNames = ['xenking', 'reorx']
 
 // https://vitejs.dev/guide/features.html#disabling-css-injection-into-the-page
 // note that `?raw` (https://vitejs.dev/guide/assets.html#importing-asset-as-string)
@@ -32,6 +32,10 @@ themes.default = themes.xenking
 
 export function getTheme(name) {
   return themes[name]
+}
+
+export function getThemeNames() {
+  return themeNames
 }
 
 export function renderTheme(template, cvData, options) {

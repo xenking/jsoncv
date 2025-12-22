@@ -112,6 +112,34 @@ button {
       }
     }
   }
+
+  .theme-select {
+    @include vars.button-base;
+    border: 1px solid var(--grey-2);
+    border-radius: 2px;
+    padding: 3px 8px;
+    font-size: 13px;
+    display: block;
+    width: 85px;
+
+    &:active {
+      border-color: #555;
+    }
+
+    select {
+      width: 100%;
+      margin-top: 4px;
+      padding: 0;
+      border: 0;
+      font-size: 13px;
+      background: transparent;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
 }
 
 .output-html {

@@ -11,8 +11,10 @@ import * as jsoncvSchemaModule from '../../schema/jsoncv.schema.json';
 import {
   getCVData,
   getPrimaryColor,
+  getTheme,
   saveCVJSON,
   savePrimaryColor,
+  saveTheme,
 } from '../lib/store';
 import {
   createElement,
@@ -22,6 +24,7 @@ import {
   traverseDownObject,
 } from '../lib/utils';
 import { getCVTitle } from '../themes/data';
+import { getThemeNames } from '../themes';
 import { registerIconLib } from './je-iconlib';
 import { registerTheme } from './je-theme';
 
@@ -268,3 +271,25 @@ $inputColorPicker.on('change', (e) => {
 const primaryColor = getPrimaryColor()
 $colorValue.text(primaryColor)
 $inputColorPicker.val(primaryColor)
+
+// theme selector
+const $selectTheme = $('#fn-theme-select')
+const themeNames = getThemeNames()
+
+// populate theme options
+themeNames.forEach(name => {
+  const option = document.createElement('option')
+  option.value = name
+  option.textContent = name
+  $selectTheme.get(0).appendChild(option)
+})
+
+// set current theme
+const currentTheme = getTheme()
+$selectTheme.val(currentTheme)
+
+$selectTheme.on('change', (e) => {
+  const theme = e.target.value
+  console.log('theme', theme)
+  saveTheme(theme)
+})

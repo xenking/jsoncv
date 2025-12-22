@@ -10,6 +10,7 @@ html, body {
   --font-main: 'Inter', sans-serif;
   --color-black: #000;
   --color-gray: rgb(79, 81, 87);
+  --color-primary: #000;
   
   /* Compact font sizing for PDF export */
   --fs-base: 13.5px; 
@@ -115,13 +116,14 @@ h1, h2, h3, div, span, p, a, li {
   margin: 0px;
   font-weight: 700;
   font-size: 18px;
+  color: var(--color-primary);
 }
 
 .body-section-headline-line {
   margin: 4px 0px 0px 8px;
   flex-grow: 1;
   height: 2px;
-  background-color: var(--color-black);
+  background-color: var(--color-primary);
 }
 
 /* Experience Items */

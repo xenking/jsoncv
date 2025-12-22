@@ -3,13 +3,13 @@
 A toolkit for building your CV with JSON and creating stylish HTML/PDF files.
 
 jsoncv comprises the following components:
+
 1. Schema
 2. Editor
 3. CV HTML
 4. Converters
 
 For in-depth explanations and usage guidelines, please refer to the documentation below.
-
 
 ## Introduction
 
@@ -39,7 +39,7 @@ The complete diff between the JSON Resume schema and the jsoncv schema can be vi
 ![](images/editor.png)
 
 jsoncv comes with an online editor that provides a graphical user interface for creating and editing your jsoncv data.
-Visit it at https://jsoncv.xenking.pro/editor/.
+Visit it at <https://jsoncv.xenking.pro/editor/>.
 
 The Editor consists of three panes, from left to right:
 
@@ -74,7 +74,6 @@ Converters are scripts to help user converting jsoncv data from/to other sources
 Currently, there is only one converter available: `rxresume-to-jsoncv.js`, which converts data exported from [RxResume](https://rxresu.me/) into the jsoncv format.
 
 If you have any additional requirements, please feel free to submit an issue. Pull requests are also greatly appreciated.
-
 
 ## Usage
 
@@ -133,6 +132,7 @@ Here are the steps to build a CV HTML using your own data:
     and the generated HTML will be located in the `$HOME/Downloads/mycv` directory.
 
 The following environment variables are supported in the build process:
+
 - `DATA_FILENAME`: The CV data to use, can be a relative or absolute path.
 - `OUT_DIR`: The output directory for the generated HTML file.
 - `THEME`: The theme to use, must be one of the directory name in `src/themes/`.
@@ -149,7 +149,7 @@ The generated `index.html` file can be used anywhere and on any hosting platform
 Simply upload it to a web server, and you will have your own online CV site.
 The built-in theme "xenking" also includes responsive support for mobile devices.
 
-However, if you want extra customization, like the CV site at https://cv.xenking.pro/
+However, if you want extra customization, like the CV site at <https://cv.xenking.pro/>
 which has a footer with links to the PDF file and the author's home page,
 you can follow these steps:
 
@@ -159,6 +159,7 @@ you can follow these steps:
     ```
     git submodule add https://github.com/xenking/jsoncv.git
     ```
+
 3. Put your CV data file, for example `cv.json`, in the project.
 4. Initialize `package.json` by running `npm init`.
 5. Install jsoncv as a dependency by running `npm i ./jsoncv`.
@@ -181,6 +182,7 @@ jsoncv includes several built-in themes that you can use either directly in the 
  If you want to create your own custom theme, here is how:
 
 The file system hierarchy for themes is as follows:
+
 ```
 src/themes
 └── xenking
@@ -193,6 +195,7 @@ with `index.ejs` and `index.scss` files.
 
 `index.ejs` is an [ejs](https://ejs.co/) template used for constructing the CV content.
 The data that is passed to the template is structured as follows:
+
 - `cv`: the entire jsoncv data that conforms to the jsoncv schema
 - `fn`: a set of utility functions
   - `getCVTitle`: gets the CV title from `cv` data
@@ -215,7 +218,6 @@ Pull requests for adding new themes are always welcomed.
 > Because I think that theme is tightly bound to the developer's aesthetic and personal taste,
 > and common words may not accurately represent the theme.
 
-
 ## Tech stack
 
 - vite
@@ -223,7 +225,6 @@ Pull requests for adding new themes are always welcomed.
 - scss
 - iconify
 - ajv
-
 
 ## FAQ
 
@@ -239,20 +240,9 @@ This issue has been reported by several users and is not specific to jsoncv. As 
 
 Solution: Use Firefox or Safari to get the PDF
 
-
 ### The order of properties in the exported JSON changes sometimes
 
 See [Does JavaScript guarantee object property order? - Stack Overflow](https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order)
-
-## TODO
-
-- [x] Supports Markdown in `summary` and `description` properties
-- [x] Allows customizing primary color for the current theme
-- [x] Export PDF directly (using browser's print feature)
-- [x] Supports responsive style for themes, so that the CV site is friendly to view on mobile devices.
-- [ ] Add more themes.
-- [ ] Allows switching themes in Editor
-- [ ] Add more sample data. By clicking the "Load Sample" button, a dialog will open, allowing the user to select from various languages
 
 ## Credits
 
@@ -262,4 +252,3 @@ jsoncv fork could not be made possible without these awesome projects below:
 - [json-editor](https://github.com/json-editor/json-editor)
 - [iconify](https://iconify.design/)
 - [jsoncv](https://github.com/reorx/jsoncv)
-

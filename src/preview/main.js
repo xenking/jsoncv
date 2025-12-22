@@ -2,13 +2,14 @@ import {
   getCVData,
   getCVSavedTime,
   getPrimaryColor,
+  getTheme,
 } from '../lib/store';
 import { upsertStyleTag } from '../lib/utils';
 import cvBaseStyle from '../scss/cv-base.css?inline';
 import { renderThemeOn } from '../themes';
 import { getCVTitle } from '../themes/data';
 
-const themeName = 'default'
+const themeName = getTheme()
 const elCV = document.querySelector('.cv-container')
 
 // Save scroll position on page unload
