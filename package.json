@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "dev-site": "vite -c vite.config.site.js --host",
     "build-site": "vite -c vite.config.site.js build",
-    "preview-site": "vite -c vite.config.site.js preview"
+    "preview-site": "vite -c vite.config.site.js preview",
+    "version-resume": "node scripts/version-resume.js",
+    "build-resumes": "node scripts/build-resumes.js",
+    "build-all": "npm run build-site && npm run build-resumes"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.33",
@@ -20,7 +23,8 @@
     "vite": "^7.3.0",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-handlebars": "^1.6.0",
-    "vite-plugin-singlefile": "^2.3.0"
+    "vite-plugin-singlefile": "^2.3.0",
+    "wrangler": "^4.56.0"
   },
   "dependencies": {
     "@iconify/json": "^2.2.15",

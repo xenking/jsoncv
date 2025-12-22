@@ -7,23 +7,24 @@ import { TransformEjs } from './src/lib/vite-plugins';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, 'src')
+const domain = process.env.DOMAIN || 'jsoncv.xenking.pro';
 const renderData = {
   meta: {
     title: "jsoncv",
     description: "A toolkit for building your CV with JSON and creating stylish HTML/PDF files.",
-    url: "https://jsoncv.xenking.pro",
+    url: `https://${domain}`,
     twitter: {
       card: "summary",
-      username: "xenking",
+      username: process.env.TWITTER_USERNAME || "xenking",
     }
   },
   editorMeta: {
     title: "jsoncv Editor",
     description: "The online editor of the jsoncv project.",
-    url: "https://jsoncv.xenking.pro/editor/",
+    url: `https://${domain}/editor/`,
     twitter: {
       card: "summary",
-      username: "xenking",
+      username: process.env.TWITTER_USERNAME || "xenking",
     }
   }
 }
@@ -31,6 +32,8 @@ const renderData = {
 export default defineConfig({
   root: 'src',
   build: {
+    outDir: resolve(__dirname, 'dist'),
+    emptyOutDir: true,
     // allows 'import.meta.glob' to work
     target: 'esnext',
     rollupOptions: {

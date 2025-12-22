@@ -413,11 +413,20 @@ function dateRange(item) {
 
     <% if (cv.meta && !fn.isHidden('meta')) { %>
     <footer class="pdf-footer">
+      <% if (cv.meta.name && cv.meta.version) { %>
+        <a href="/<%= cv.meta.name %>-<%= cv.meta.version %>.pdf" download class="footer-link">Download PDF</a>
+        <span class="footer-separator">•</span>
+      <% } %>
+      <a href="https://xenking.pro" target="_blank" rel="noopener noreferrer" class="footer-link">xenking.pro</a>
+      <% if (cv.meta.version || cv.meta.lastModified) { %>
+        <span class="footer-separator">•</span>
+      <% } %>
       <% if (cv.meta.version) { %>
-        <div class="version">Version: <%= cv.meta.version %></div>
+        <span class="footer-meta">Version: <%= cv.meta.version %></span>
       <% } %>
       <% if (cv.meta.lastModified) { %>
-        <div class="last-modified">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></div>
+        <% if (cv.meta.version) { %><span class="footer-separator">•</span><% } %>
+        <span class="footer-meta">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></span>
       <% } %>
     </footer>
     <% } %>

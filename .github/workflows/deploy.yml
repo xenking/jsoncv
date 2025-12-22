@@ -1,0 +1,61 @@
+name: Build and Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build site and all resumes
+        if: github.ref == 'refs/heads/master'
+        env:
+          DOMAIN: cv.xenking.pro
+          TWITTER_USERNAME: xenking
+        run: npm run build-all
+
+      - name: Copy latest resume HTML to root
+        if: github.ref == 'refs/heads/master'
+        run: |
+          RESUME_NAME=$(node -pe "require('./wrangler.toml').vars?.RESUME_NAME || 'Example CV'" 2>/dev/null || echo "Example CV")
+          LATEST_HTML="dist/resume/${RESUME_NAME}.html"
+          if [ -f "$LATEST_HTML" ]; then
+            cp "$LATEST_HTML" dist/index.html
+            echo "✅ Copied $LATEST_HTML to dist/index.html"
+          else
+            echo "⚠️  Warning: $LATEST_HTML not found"
+          fi
+
+      - name: Upload build artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+      - name: Deploy to Cloudflare Workers
+        if: github.ref == 'refs/heads/master'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
