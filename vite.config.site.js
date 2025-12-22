@@ -36,7 +36,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(rootDir, 'index.html'),
-        editor: resolve(rootDir, 'editor/index.html'),
         preview: resolve(rootDir, 'preview/index.html'),
       },
     },
@@ -48,6 +47,20 @@ export default defineConfig({
     },
   },
   plugins: [
+    // Redirect /editor/ to / (editor is now at root)
+    {
+      name: 'editor-redirect',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url === '/editor' || req.url === '/editor/' || req.url === '/editor/index.html') {
+            res.writeHead(302, { Location: '/' });
+            res.end();
+            return;
+          }
+          next();
+        });
+      },
+    },
     TransformEjs(),
     ViteEjsPlugin(
       renderData,
