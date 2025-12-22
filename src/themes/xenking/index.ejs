@@ -52,6 +52,9 @@ function dateRange(item) {
           <% if (cv.basics.email) { %>
             <a href="mailto:<%= cv.basics.email %>" class="header-link"><span class="header-text"><%= cv.basics.email %></span></a>
           <% } %>
+          <% if (cv.basics.phone) { %>
+            <a href="tel:<%= cv.basics.phone %>" class="header-link"><span class="header-text"><%= cv.basics.phone %></span></a>
+          <% } %>
           <% if (cv.basics.profiles) { %>
             <% cv.basics.profiles.forEach(function(profile){ %>
               <%- linkInDiv(profile.url, fn.noSchemaURL(profile.url), 'header-link') %>
@@ -105,7 +108,7 @@ function dateRange(item) {
           </div>
           <div>
             <% if (item.summary) { %>
-              <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary).replace(/<p>|<\/p>/g, '').replace(/\n/g, '<br>') %></h3>
+              <div class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary) %></div>
             <% } %>
             <% if (item.highlights && item.highlights.length) { %>
               <ul class="body-section-item-list">
@@ -127,15 +130,23 @@ function dateRange(item) {
           <div class="body-section-headline-line"></div>
         </div>
         <% cv.education.forEach(function(item) { %>
-        <div class="body-section-single-container">
-          <div class="body-section-single-flex">
-            <h2 class="body-section-single-title"><%= item.studyType %> in <%= item.area %></h2>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.institution %></h2>
             <div class="body-section-item-title-container">
-              <h3 class="body-section-single-text"><%= item.institution %></h3>
-              <div class="body-section-single-delimeter"></div>
-              <div class="body-section-item-title-date"><%- dateRange(item) %></div>
+              <h3 class="body-section-item-text">
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
             </div>
           </div>
+          <div class="body-section-item-title">
+            <h3 class="body-section-item-text"><%= item.studyType %> in <%= item.area %></h3>
+            <div class="body-section-item-title-date"><%- dateRange(item) %></div>
+          </div>
+          <% if (item.score) { %><div class="body-section-item-description-text">Overall GPA: <%= item.score %></div><% } %>
+          <% if (item.courses && item.courses.length) { %><div class="body-section-item-description-text">Courses: <%= item.courses.join('; ') %></div><% } %>
         </div>
         <% }) %>
       </section>
@@ -167,6 +178,233 @@ function dateRange(item) {
           </div>
           <% }) %>
 
+        </div>
+      </section>
+      <% } %>
+
+      <% if (cv.projects && cv.projects.length && !fn.isHidden('projects')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Projects</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.projects.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                <% if (item.roles && item.roles.length) { %><%= item.roles.join(', ') %><% } %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <% if (item.startDate) { %><div class="body-section-item-title-date"><%- dateRange(item) %></div><% } %>
+            </div>
+          </div>
+          <div>
+            <% if (item.description) { %>
+              <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.description).replace(/<p>|<\/p>/g, '') %></h3>
+            <% } %>
+            <% if (item.highlights && item.highlights.length) { %>
+              <ul class="body-section-item-list">
+                <% item.highlights.forEach(function(hl) { %>
+                  <li class="body-section-item-list-text"><%- fn.renderMarkdown(hl).replace(/<p>|<\/p>/g, '') %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+            <% if (item.keywords && item.keywords.length) { %>
+              <div class="body-section-keywords"><%= item.keywords.join(' · ') %></div>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.sideProjects && cv.sideProjects.length && !fn.isHidden('sideProjects')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Side Projects</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.sideProjects.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+            </div>
+          </div>
+          <% if (item.description) { %>
+            <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.description).replace(/<p>|<\/p>/g, '') %></h3>
+          <% } %>
+          <% if (item.keywords && item.keywords.length) { %>
+            <div class="body-section-keywords"><%= item.keywords.join(' · ') %></div>
+          <% } %>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.awards && cv.awards.length && !fn.isHidden('awards')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Awards</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.awards.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.title %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text"><%= item.awarder %></h3>
+              <% if (item.date) { %><div class="body-section-item-title-date"><%= item.date %></div><% } %>
+            </div>
+          </div>
+          <% if (item.summary) { %>
+            <div class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary) %></div>
+          <% } %>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.certificates && cv.certificates.length && !fn.isHidden('certificates')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Certificates</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.certificates.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                <%= item.issuer %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <% if (item.date) { %><div class="body-section-item-title-date"><%= item.date %></div><% } %>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.volunteer && cv.volunteer.length && !fn.isHidden('volunteer')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Volunteer</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.volunteer.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.position %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                at <%= item.organization %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <div class="body-section-item-title-date"><%- dateRange(item) %></div>
+            </div>
+          </div>
+          <div>
+            <% if (item.summary) { %>
+              <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary).replace(/<p>|<\/p>/g, '') %></h3>
+            <% } %>
+            <% if (item.highlights && item.highlights.length) { %>
+              <ul class="body-section-item-list">
+                <% item.highlights.forEach(function(hl) { %>
+                  <li class="body-section-item-list-text"><%- fn.renderMarkdown(hl).replace(/<p>|<\/p>/g, '') %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.publications && cv.publications.length && !fn.isHidden('publications')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Publications</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.publications.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                <%= item.publisher %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <% if (item.releaseDate) { %><div class="body-section-item-title-date"><%= item.releaseDate %></div><% } %>
+            </div>
+          </div>
+          <% if (item.summary) { %>
+            <h3 class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary).replace(/<p>|<\/p>/g, '') %></h3>
+          <% } %>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.references && cv.references.length && !fn.isHidden('references')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">References</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.references.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <% if (item.relationship) { %>
+              <div class="body-section-item-title-container">
+                <h3 class="body-section-item-text"><%= item.relationship %></h3>
+              </div>
+            <% } %>
+          </div>
+          <% if (item.reference) { %>
+            <div class="body-section-item-description-text"><%- fn.renderMarkdown(item.reference) %></div>
+          <% } %>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% if (cv.interests && cv.interests.length && !fn.isHidden('interests')) { %>
+      <section class="body-list-container">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Interests</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <div class="body-list">
+          <% cv.interests.forEach(function(item) { %>
+          <div class="body-list-item">
+            <div class="body-list-item-title">
+              <div class="text-bold"><%= item.name %></div>
+            </div>
+            <% if (item.keywords && item.keywords.length) { %>
+              <div class="body-list-item-text"><%= item.keywords.join(', ') %></div>
+            <% } %>
+          </div>
+          <% }) %>
         </div>
       </section>
       <% } %>

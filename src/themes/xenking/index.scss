@@ -136,6 +136,7 @@ h1, h2, h3, div, span, p, a, li {
   display: flex;
   margin: 0px 0px 3px;
   align-items: baseline;
+  justify-content: space-between;
 }
 
 .body-section-item-title-text {
@@ -186,20 +187,44 @@ h1, h2, h3, div, span, p, a, li {
   font-weight: 500;
   font-size: 13px;
   line-height: 1.35; /* Чуть больше воздуха для читаемости мульти-строк */
+  
+  p {
+    margin: 0 0 4px 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  ul, ol {
+    margin: 0;
+    padding-left: 18px;
+    
+    li {
+      margin: 0 0 2px 0;
+      line-height: 1.25;
+    }
+  }
 }
 
 /* Lists */
 .body-section-item-list {
   margin: 0px;
   padding: 0px;
+  list-style-position: outside;
+  padding-left: 18px;
 }
 
 .body-section-item-list-text {
-  margin: 0px 0px 3px 14px;
+  margin: 0px 0px 2px 0px;
   font-weight: 400;
   font-size: var(--fs-base);
   padding-left: 0px;
   line-height: 1.25;
+  
+  p {
+    margin: 0;
+    display: inline;
+  }
 }
 
 /* Education / Single Line Items */
@@ -270,6 +295,14 @@ h1, h2, h3, div, span, p, a, li {
   font-weight: 400;
   font-size: var(--fs-base);
   line-height: 1.3;
+}
+
+/* Keywords for projects */
+.body-section-keywords {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: var(--color-gray);
+  font-weight: 400;
 }
 
 /* Footer */
