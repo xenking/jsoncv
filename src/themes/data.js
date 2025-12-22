@@ -13,9 +13,15 @@ export function getRenderData(cvData) {
       getIconSVG,
       noSchemaURL,
       renderMarkdown,
+      isHidden: (section) => isHiddenSection(cvData, section),
     },
     varNamePrimaryColor,
   }
+}
+
+function isHiddenSection(cv, section) {
+  const hiddenSections = cv.meta?.hiddenSections || []
+  return hiddenSections.includes(section)
 }
 
 /* fn */

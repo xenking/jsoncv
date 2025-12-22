@@ -66,7 +66,7 @@ function dateRange(item) {
 
     <div class="pdf-page-column">
       
-      <% if (cv.basics.summary) { %>
+      <% if (cv.basics.summary && !fn.isHidden('summary')) { %>
       <section class="body-section">
         <div class="body-section-headline">
           <h2 class="body-section-headline-text">Summary</h2>
@@ -82,7 +82,7 @@ function dateRange(item) {
       </section>
       <% } %>
 
-      <% if (cv.work && cv.work.length) { %>
+      <% if (cv.work && cv.work.length && !fn.isHidden('work')) { %>
       <section class="body-section">
         <div class="body-section-headline">
           <h2 class="body-section-headline-text">Experience</h2>
@@ -120,7 +120,7 @@ function dateRange(item) {
       </section>
       <% } %>
 
-      <% if (cv.education && cv.education.length) { %>
+      <% if (cv.education && cv.education.length && !fn.isHidden('education')) { %>
       <section class="body-section">
         <div class="body-section-headline">
           <h2 class="body-section-headline-text">Education</h2>
@@ -141,7 +141,7 @@ function dateRange(item) {
       </section>
       <% } %>
 
-      <% if (cv.skills && cv.skills.length) { %>
+      <% if (cv.skills && cv.skills.length && !fn.isHidden('skills')) { %>
       <section class="body-list-container">
         <div class="body-section-headline">
           <h2 class="body-section-headline-text">Skills</h2>
@@ -172,5 +172,17 @@ function dateRange(item) {
       <% } %>
 
     </div>
+
+    <% if (cv.meta && !fn.isHidden('meta')) { %>
+    <footer class="pdf-footer">
+      <% if (cv.meta.version) { %>
+        <div class="version">Version: <%= cv.meta.version %></div>
+      <% } %>
+      <% if (cv.meta.lastModified) { %>
+        <div class="last-modified">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></div>
+      <% } %>
+    </footer>
+    <% } %>
+
   </div>
 </div>

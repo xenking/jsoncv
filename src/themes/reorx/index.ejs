@@ -100,6 +100,7 @@ function date(item, level, fieldName = 'date') {
 %>
 
 <!-- Basics -->
+<% if (!fn.isHidden('basics')) { %>
 <section class="basics-section">
   <h1><%= cv.basics.name %></h1>
   <% if (cv.basics.label) { %>
@@ -135,11 +136,12 @@ function date(item, level, fieldName = 'date') {
     <% } %>
   </div>
 </section>
+<% } %>
 
 
 
 <!-- Educations -->
-<% if (hasItems(cv.education)) { %>
+<% if (hasItems(cv.education) && !fn.isHidden('education')) { %>
 <section class="education-section">
   <div class="section-title">
     <h2>Education</h2>
@@ -169,7 +171,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Work -->
-<% if (hasItems(cv.work)) { %>
+<% if (hasItems(cv.work) && !fn.isHidden('work')) { %>
 <section class="work-section">
   <div class="section-title">
     <h2>Work</h2>
@@ -203,7 +205,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Projects -->
-<% if (hasItems(cv.projects)) { %>
+<% if (hasItems(cv.projects) && !fn.isHidden('projects')) { %>
 <section class="projects-section">
   <div class="section-title">
     <h2>Projects</h2>
@@ -246,7 +248,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Side-projects -->
-<% if (hasItems(cv.sideProjects)) { %>
+<% if (hasItems(cv.sideProjects) && !fn.isHidden('sideProjects')) { %>
 <section class="sideprojects-section">
   <div class="section-title">
     <h2>Side-projects</h2>
@@ -279,7 +281,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Skills -->
-<% if (hasItems(cv.skills)) { %>
+<% if (hasItems(cv.skills) && !fn.isHidden('skills')) { %>
 <section class="skills-section">
   <div class="section-title">
     <h2>Skills</h2>
@@ -307,7 +309,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Languages -->
-<% if (hasItems(cv.languages)) { %>
+<% if (hasItems(cv.languages) && !fn.isHidden('languages')) { %>
 <section class="languages-section page-unit">
   <div class="section-title">
     <h2>Languages</h2>
@@ -327,7 +329,7 @@ function date(item, level, fieldName = 'date') {
 
 
 <!-- Awards -->
-<% if (hasItems(cv.awards)) { %>
+<% if (hasItems(cv.awards) && !fn.isHidden('awards')) { %>
 <section class="awards-section">
   <div class="section-title">
     <h2>Awards</h2>
@@ -349,7 +351,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Certificates -->
-<% if (hasItems(cv.certificates)) { %>
+<% if (hasItems(cv.certificates) && !fn.isHidden('certificates')) { %>
 <section class="certificates-section">
   <div class="section-title">
     <h2>Certificates</h2>
@@ -369,7 +371,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Volunteer -->
-<% if (hasItems(cv.volunteer)) { %>
+<% if (hasItems(cv.volunteer) && !fn.isHidden('volunteer')) { %>
 <section class="volunteer-section">
   <div class="section-title">
     <h2>Volunteer</h2>
@@ -402,7 +404,7 @@ function date(item, level, fieldName = 'date') {
 
 
 <!-- Publications -->
-<% if (hasItems(cv.publications)) { %>
+<% if (hasItems(cv.publications) && !fn.isHidden('publications')) { %>
 <section class="publications-section">
   <div class="section-title">
     <h2>Publications</h2>
@@ -425,7 +427,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- References -->
-<% if (hasItems(cv.references)) { %>
+<% if (hasItems(cv.references) && !fn.isHidden('references')) { %>
 <section class="references-section">
   <div class="section-title">
     <h2>References</h2>
@@ -444,7 +446,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- Interests -->
-<% if (hasItems(cv.interests)) { %>
+<% if (hasItems(cv.interests) && !fn.isHidden('interests')) { %>
 <section class="interests-section">
   <div class="section-title">
     <h2>Interests</h2>
@@ -468,7 +470,7 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- meta -->
-<% if (cv.meta) { %>
+<% if (cv.meta && !fn.isHidden('meta')) { %>
 <footer>
   <% if (cv.meta.version) { %>
     <div class="version">Version: <%= cv.meta.version %></div>

@@ -25,6 +25,7 @@ import {
 } from '../lib/utils';
 import { getCVTitle } from '../themes/data';
 import { getThemeNames } from '../themes';
+import { getIconSVG } from '../lib/icons';
 import { registerIconLib } from './je-iconlib';
 import { registerTheme } from './je-theme';
 
@@ -132,11 +133,105 @@ const editor = new JSONEditor(elEditorContainer, {
   no_additional_properties: true,
   startval: data,
 });
+// sections that can be hidden in the rendered CV
+const hiddenSections = ['basics', 'summary', 'education', 'work', 'projects', 'sideProjects', 'skills', 'languages', 'interests', 'references', 'awards', 'publications', 'volunteer', 'certificates', 'meta']
+
+function isSectionHidden(sectionName) {
+  const data = editor.getValue()
+  const hidden = data.meta?.hiddenSections || []
+  return hidden.includes(sectionName)
+}
+
+function toggleSectionVisibility(sectionName) {
+  const data = editor.getValue()
+  if (!data.meta) data.meta = {}
+  if (!data.meta.hiddenSections) data.meta.hiddenSections = []
+  
+  const idx = data.meta.hiddenSections.indexOf(sectionName)
+  if (idx === -1) {
+    data.meta.hiddenSections.push(sectionName)
+  } else {
+    data.meta.hiddenSections.splice(idx, 1)
+  }
+  
+  editor.setValue(data)
+}
+
+function updateVisibilityButtonIcon(btn, sectionName) {
+  const isHidden = isSectionHidden(sectionName)
+  btn.innerHTML = ''
+  btn.appendChild(getIconSVG(isHidden ? 'mdi:eye-off' : 'mdi:eye', { dom: true }))
+  const label = document.createElement('span')
+  label.textContent = isHidden ? 'show' : 'hide'
+  btn.appendChild(label)
+  btn.title = isHidden ? `Show ${sectionName} in CV` : `Hide ${sectionName} from CV`
+}
+
+function addVisibilityButton(sectionName) {
+  // For 'summary', it's inside basics, so we need special handling
+  let schemaPath = sectionName === 'summary' ? 'root.basics.summary' : `root.${sectionName}`
+  const sectionEl = document.querySelector(`[data-schemapath="${schemaPath}"]`)
+  if (!sectionEl) return
+  
+  const header = sectionEl.querySelector(':scope > .je-header')
+  if (!header) return
+  
+  // Check if button already exists
+  if (header.querySelector('.visibility-toggle')) return
+  
+  // Find or create button holder
+  let btnHolder = header.querySelector('.je-header-button-holder')
+  if (!btnHolder) {
+    // Some sections may not have a button holder, create one
+    btnHolder = document.createElement('span')
+    btnHolder.className = 'je-header-button-holder'
+    header.appendChild(btnHolder)
+  }
+  
+  const btn = document.createElement('button')
+  btn.type = 'button'
+  btn.className = 'visibility-toggle'
+  updateVisibilityButtonIcon(btn, sectionName)
+  
+  btn.addEventListener('click', (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    toggleSectionVisibility(sectionName)
+    updateVisibilityButtonIcon(btn, sectionName)
+  })
+  
+  btnHolder.insertBefore(btn, btnHolder.firstChild)
+}
+
+function addVisibilityButtons() {
+  hiddenSections.forEach(sectionName => {
+    addVisibilityButton(sectionName)
+  })
+}
+
 editor.on('ready',() => {
   // add anchor to each schema element
   document.querySelectorAll('[data-schemapath]').forEach(el => {
     const schemapath = el.getAttribute('data-schemapath')
     el.id = schemapath
+  })
+  
+  // add visibility toggle buttons to sections
+  addVisibilityButtons()
+})
+
+editor.on('change', () => {
+  // update visibility button icons when data changes
+  document.querySelectorAll('.visibility-toggle').forEach(btn => {
+    const sectionEl = btn.closest('[data-schemapath]')
+    if (sectionEl) {
+      const schemaPath = sectionEl.getAttribute('data-schemapath')
+      let sectionName = schemaPath.replace('root.', '')
+      if (sectionName === 'basics.summary') sectionName = 'summary'
+      if (hiddenSections.includes(sectionName)) {
+        updateVisibilityButtonIcon(btn, sectionName)
+      }
+    }
   })
 })
 

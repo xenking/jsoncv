@@ -520,6 +520,14 @@
         "lastModified": {
           "type": "string",
           "description": "Using ISO 8601 with YYYY-MM-DDThh:mm:ss"
+        },
+        "hiddenSections": {
+          "type": "array",
+          "description": "List of section names to hide in the rendered CV",
+          "items": {
+            "type": "string",
+            "enum": ["basics", "summary", "education", "work", "projects", "sideProjects", "skills", "languages", "interests", "references", "awards", "publications", "volunteer", "certificates", "meta"]
+          }
         }
       }
     }

@@ -60,6 +60,30 @@
     margin-left: 10px;
     font-size: 0.8em;
     vertical-align: middle;
+
+    .visibility-toggle {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.6;
+      vertical-align: middle;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+      }
+
+      span {
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+    }
   }
   .je-table {
     margin-bottom: 5px;
