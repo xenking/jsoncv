@@ -10,8 +10,9 @@ run_worker_first = true
 
 # Route to custom domain - UPDATE THESE VALUES FOR YOUR DOMAIN
 [[routes]]
-pattern = "cv.xenking.pro/*"  # Change this to your domain
+pattern = "cv.xenking.pro"  # Change this to your domain
 zone_name = "xenking.pro"      # Change this to your Cloudflare zone
+custom_domain = true
 
 # Environment variables
 [vars]
