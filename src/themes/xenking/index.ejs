@@ -413,11 +413,13 @@ function dateRange(item) {
 
     <% if (cv.meta && !fn.isHidden('meta')) { %>
     <footer class="pdf-footer">
-      <% if (cv.meta.name && cv.meta.version) { %>
-        <a href="/<%= cv.meta.name %>-<%= cv.meta.version %>.pdf" download class="footer-link">Download PDF</a>
-        <span class="footer-separator">•</span>
-      <% } %>
-      <a href="https://xenking.pro" target="_blank" rel="noopener noreferrer" class="footer-link">xenking.pro</a>
+      <% 
+        const resumeName = cv.meta.name || cv.basics.name || 'Resume';
+        const pdfFilename = cv.meta.version ? `${resumeName}-${cv.meta.version}.pdf` : `${resumeName}.pdf`;
+      %>
+      <a href="/<%= pdfFilename %>" download class="footer-link">Download PDF</a>
+      <span class="footer-separator">•</span>
+      <a href="https://<%= siteUrl %>" target="_blank" rel="noopener noreferrer" class="footer-link"><%= siteUrl %></a>
       <% if (cv.meta.version || cv.meta.lastModified) { %>
         <span class="footer-separator">•</span>
       <% } %>

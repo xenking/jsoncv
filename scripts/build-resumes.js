@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import puppeteer from 'puppeteer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,33 @@ if (!fs.existsSync(distResumesDir)) {
   fs.mkdirSync(distResumesDir, { recursive: true });
 }
 
+async function generatePDF(htmlPath, pdfPath) {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+  
+  try {
+    const page = await browser.newPage();
+    const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    
+    await page.pdf({
+      path: pdfPath,
+      format: 'A4',
+      margin: {
+        top: '10mm',
+        right: '12mm',
+        bottom: '10mm',
+        left: '12mm'
+      },
+      printBackground: true
+    });
+  } finally {
+    await browser.close();
+  }
+}
+
 console.log('📦 Building all resume versions...\n');
 
 const resumeFiles = fs.readdirSync(resumesDir)
@@ -33,6 +61,7 @@ if (resumeFiles.length === 0) {
 
 let builtCount = 0;
 
+(async () => {
 for (const file of resumeFiles) {
   const resumePath = path.join(resumesDir, file);
   const resumeData = JSON.parse(fs.readFileSync(resumePath, 'utf8'));
@@ -43,10 +72,12 @@ for (const file of resumeFiles) {
   }
   
   const resumeName = resumeData.meta.name;
+  const theme = resumeData.meta.theme || 'xenking';
   const baseFilename = file.replace('.json', '');
   
   console.log(`🔨 Building: ${file}`);
   console.log(`   Resume name: ${resumeName}`);
+  console.log(`   Theme: ${theme}`);
   
   // Copy JSON to dist/resume/
   const jsonDestPath = path.join(distResumesDir, file);
@@ -59,9 +90,9 @@ for (const file of resumeFiles) {
   const tempOutDir = path.join(process.cwd(), '.tmp-build', baseFilename);
   
   try {
-    // Build HTML using vite
+    // Build HTML using vite with theme from resume meta
     execSync(
-      `DATA_FILENAME="${resumePath}" OUT_DIR="${tempOutDir}" npm run build`,
+      `DATA_FILENAME="${resumePath}" OUT_DIR="${tempOutDir}" THEME="${theme}" npm run build`,
       { stdio: 'pipe', encoding: 'utf8' }
     );
     
@@ -70,6 +101,15 @@ for (const file of resumeFiles) {
     if (fs.existsSync(builtHtmlPath)) {
       fs.copyFileSync(builtHtmlPath, htmlDestPath);
       console.log(`   ✅ HTML: /resume/${htmlFilename}`);
+      
+      // Generate PDF from HTML
+      const pdfFilename = resumeData.meta.version 
+        ? `${resumeName}-${resumeData.meta.version}.pdf`
+        : `${resumeName}.pdf`;
+      const pdfDestPath = path.join(distDir, pdfFilename);
+      
+      await generatePDF(htmlDestPath, pdfDestPath);
+      console.log(`   ✅ PDF: /${pdfFilename}`);
     } else {
       console.warn(`   ⚠️  HTML build not found: ${builtHtmlPath}`);
     }
@@ -78,7 +118,7 @@ for (const file of resumeFiles) {
     fs.rmSync(tempOutDir, { recursive: true, force: true });
     
   } catch (error) {
-    console.error(`   ❌ Failed to build HTML: ${error.message}`);
+    console.error(`   ❌ Failed to build HTML/PDF: ${error.message}`);
   }
   
   builtCount++;
@@ -101,8 +141,16 @@ for (const file of latestResumes) {
   const resumeData = JSON.parse(fs.readFileSync(path.join(resumesDir, file), 'utf8'));
   if (resumeData.meta && resumeData.meta.name) {
     const baseFilename = file.replace('.json', '');
+    const pdfFilename = resumeData.meta.version 
+      ? `${resumeData.meta.name}-${resumeData.meta.version}.pdf`
+      : `${resumeData.meta.name}.pdf`;
     console.log(`   ${resumeData.meta.name}:`);
     console.log(`     JSON: https://${domain}/resume/${file}`);
     console.log(`     HTML: https://${domain}/resume/${baseFilename}.html`);
+    console.log(`     PDF: https://${domain}/${pdfFilename}`);
   }
 }
+})().catch(err => {
+  console.error('Fatal error:', err);
+  process.exit(1);
+});

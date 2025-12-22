@@ -26,11 +26,32 @@ $lh-p: 1.4;
     border-top: 1px solid $color-border-dimmer;
     padding: 4px 0 8px;
     display: flex;
+    align-items: center;
+    gap: 0.5em;
     font-size: 13px;
     color: $color-text-dimmer;
     > div {
       margin-right: 2em;
     }
+  }
+  
+  .footer-link {
+    color: $color-text-dim;
+    text-decoration: none;
+    font-weight: 500;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .footer-separator {
+    color: $color-text-dimmer;
+    margin: 0 0.25em;
+  }
+  
+  .footer-meta {
+    color: $color-text-dimmer;
   }
 }
 
@@ -165,6 +186,17 @@ section {
     .section-item {
       margin-top: 1.8em;
     }
+  }
+  
+  // Hide download links and website link in PDF
+  .footer-link {
+    display: none;
+  }
+  
+  // Hide the first two separators (after download and website links)
+  .pdf-footer > .footer-separator:nth-child(2),
+  .pdf-footer > .footer-separator:nth-child(4) {
+    display: none;
   }
 }
 

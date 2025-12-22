@@ -237,9 +237,14 @@ editor.on('change', () => {
 
 function getEditorData() {
   const data = editor.getValue()
+  // Add theme to preview (same as download)
+  const previewData = {...data}
+  if (!previewData.meta) previewData.meta = {}
+  previewData.meta.theme = getTheme()
+  
   return {
     data,
-    json: JSON.stringify(data, null, 2),
+    json: JSON.stringify(previewData, null, 2),
   }
 }
 
@@ -321,6 +326,7 @@ function downloadCV(contentType) {
 
   // update data
   meta.lastModified = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+  meta.theme = getTheme()
 
   // download
   if (contentType === 'json') {

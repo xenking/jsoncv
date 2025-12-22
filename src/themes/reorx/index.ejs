@@ -471,12 +471,23 @@ function date(item, level, fieldName = 'date') {
 
 <!-- meta -->
 <% if (cv.meta && !fn.isHidden('meta')) { %>
-<footer>
+<footer class="pdf-footer">
+  <% 
+    const resumeName = cv.meta.name || cv.basics.name || 'Resume';
+    const pdfFilename = cv.meta.version ? `${resumeName}-${cv.meta.version}.pdf` : `${resumeName}.pdf`;
+  %>
+  <a href="/<%= pdfFilename %>" download class="footer-link">Download PDF</a>
+  <span class="footer-separator">•</span>
+  <a href="https://<%= siteUrl %>" target="_blank" rel="noopener noreferrer" class="footer-link"><%= siteUrl %></a>
+  <% if (cv.meta.version || cv.meta.lastModified) { %>
+    <span class="footer-separator">•</span>
+  <% } %>
   <% if (cv.meta.version) { %>
-    <div class="version">Version: <%= cv.meta.version %></div>
+    <span class="footer-meta">Version: <%= cv.meta.version %></span>
   <% } %>
   <% if (cv.meta.lastModified) { %>
-    <div class="version">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></div>
+    <% if (cv.meta.version) { %><span class="footer-separator">•</span><% } %>
+    <span class="footer-meta">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></span>
   <% } %>
 </footer>
 <% } %>

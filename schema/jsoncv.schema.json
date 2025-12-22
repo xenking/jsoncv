@@ -528,6 +528,12 @@
             "type": "string",
             "enum": ["basics", "summary", "education", "work", "projects", "sideProjects", "skills", "languages", "interests", "references", "awards", "publications", "volunteer", "certificates", "meta"]
           }
+        },
+        "theme": {
+          "type": "string",
+          "description": "The theme to use for rendering the CV. Available themes: xenking, reorx",
+          "enum": ["xenking", "reorx"],
+          "default": "xenking"
         }
       }
     }

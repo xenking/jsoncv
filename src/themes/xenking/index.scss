@@ -346,4 +346,15 @@ h1, h2, h3, div, span, p, a, li {
   body {
      -webkit-print-color-adjust: exact; 
   }
+  
+  // Hide download links and website link in PDF
+  .footer-link {
+    display: none;
+  }
+  
+  // Hide the first two separators (after download and website links)
+  .pdf-footer > .footer-separator:nth-child(2),
+  .pdf-footer > .footer-separator:nth-child(4) {
+    display: none;
+  }
 }
