@@ -17,3 +17,10 @@ zone_name = "xenking.pro"      # Change this to your Cloudflare zone
 [vars]
 DOMAIN = "cv.xenking.pro"      # Change this to your domain
 RESUME_NAME = "Richard Hendriks CV"     # Must match meta.name in your resume JSON
+
+[observability]
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
