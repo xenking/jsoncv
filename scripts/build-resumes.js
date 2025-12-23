@@ -26,6 +26,11 @@ const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
 const CF_API_TOKEN = process.env.CF_API_TOKEN;
 const USE_CF_BROWSER_RENDERING = CF_ACCOUNT_ID && CF_API_TOKEN;
 
+// Helper to add delay between API calls
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function generatePDFWithCloudflare(htmlContent, pdfPath) {
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/pdf`,
@@ -38,7 +43,7 @@ async function generatePDFWithCloudflare(htmlContent, pdfPath) {
       body: JSON.stringify({
         html: htmlContent,
         pdfOptions: {
-          format: 'A4',
+          format: 'a4',
           margin: {
             top: '10mm',
             right: '12mm',
@@ -178,6 +183,11 @@ for (const file of resumeFiles) {
   
   builtCount++;
   console.log('');
+  
+  // Add delay between API calls to avoid rate limiting
+  if (USE_CF_BROWSER_RENDERING) {
+    await delay(2000);
+  }
 }
 
 // Clean up .tmp-build directory
