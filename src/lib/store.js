@@ -5,7 +5,7 @@ export const storeKeys = {
   theme: 'theme',
 }
 
-const defaultPrimaryColor = '#000000'
+const defaultPrimaryColor = '#950e0e'
 const defaultTheme = 'xenking'
 
 function updateSavedTime() {
