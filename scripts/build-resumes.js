@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -138,7 +137,10 @@ if (resumeFiles.length === 0) {
 
 // Prioritize the primary resume (RESUME_NAME) to be built first
 if (PRIMARY_RESUME_NAME) {
-  const primaryFile = resumeFiles.find(f => f.includes(PRIMARY_RESUME_NAME));
+  const primaryFile = resumeFiles.find(f => {
+    const data = JSON.parse(fs.readFileSync(path.join(resumesDir, f), 'utf8'));
+    return data.meta && data.meta.name === PRIMARY_RESUME_NAME;
+  });
   if (primaryFile) {
     resumeFiles = [primaryFile, ...resumeFiles.filter(f => f !== primaryFile)];
     console.log(`⭐ Prioritizing primary resume: ${PRIMARY_RESUME_NAME}\n`);
@@ -197,6 +199,11 @@ for (const file of resumeFiles) {
       
       await generatePDF(htmlDestPath, pdfDestPath);
       console.log(`   PDF: /${pdfFilename}`);
+      
+      // Add delay between API calls to avoid rate limiting (10 seconds recommended by CF docs)
+      if (USE_CF_BROWSER_RENDERING) {
+        await delay(10000);
+      }
     } else {
       console.warn(`   ⚠️  HTML build not found: ${builtHtmlPath}`);
     }
@@ -210,11 +217,6 @@ for (const file of resumeFiles) {
   
   builtCount++;
   console.log('');
-  
-  // Add delay between API calls to avoid rate limiting (10 seconds recommended by CF docs)
-  if (USE_CF_BROWSER_RENDERING) {
-    await delay(10000);
-  }
 }
 
 // Clean up .tmp-build directory
