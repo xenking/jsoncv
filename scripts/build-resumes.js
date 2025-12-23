@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
-import puppeteer from 'puppeteer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,8 +21,48 @@ if (!fs.existsSync(distResumesDir)) {
   fs.mkdirSync(distResumesDir, { recursive: true });
 }
 
-async function generatePDF(htmlPath, pdfPath) {
-  const browser = await puppeteer.launch({
+// Check if Cloudflare Browser Rendering API credentials are available
+const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID;
+const CF_API_TOKEN = process.env.CF_API_TOKEN;
+const USE_CF_BROWSER_RENDERING = CF_ACCOUNT_ID && CF_API_TOKEN;
+
+async function generatePDFWithCloudflare(htmlContent, pdfPath) {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/pdf`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${CF_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        html: htmlContent,
+        pdfOptions: {
+          format: 'A4',
+          margin: {
+            top: '10mm',
+            right: '12mm',
+            bottom: '10mm',
+            left: '12mm'
+          },
+          printBackground: true
+        }
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Cloudflare API error: ${response.status} - ${errorText}`);
+  }
+
+  const buffer = await response.arrayBuffer();
+  fs.writeFileSync(pdfPath, Buffer.from(buffer));
+}
+
+async function generatePDFWithPuppeteer(htmlPath, pdfPath) {
+  const puppeteer = await import('puppeteer');
+  const browser = await puppeteer.default.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
@@ -49,7 +88,22 @@ async function generatePDF(htmlPath, pdfPath) {
   }
 }
 
+async function generatePDF(htmlPath, pdfPath) {
+  const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+  
+  if (USE_CF_BROWSER_RENDERING) {
+    await generatePDFWithCloudflare(htmlContent, pdfPath);
+  } else {
+    await generatePDFWithPuppeteer(htmlPath, pdfPath);
+  }
+}
+
 console.log('📦 Building all resume versions...\n');
+if (USE_CF_BROWSER_RENDERING) {
+  console.log('🌐 Using Cloudflare Browser Rendering API for PDF generation\n');
+} else {
+  console.log('🖥️  Using local Puppeteer for PDF generation\n');
+}
 
 const resumeFiles = fs.readdirSync(resumesDir)
   .filter(file => file.endsWith('.json'));
