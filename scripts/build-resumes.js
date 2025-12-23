@@ -31,30 +31,45 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function generatePDFWithCloudflare(htmlContent, pdfPath) {
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/pdf`,
-    {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${CF_API_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        html: htmlContent,
-        pdfOptions: {
-          format: 'a4',
-          margin: {
-            top: '10mm',
-            right: '12mm',
-            bottom: '10mm',
-            left: '12mm'
-          },
-          printBackground: true
-        }
-      })
-    }
-  );
+async function generatePDFWithCloudflare(htmlContent, pdfPath, retries = 3) {
+  const makeRequest = async () => {
+    return fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/browser-rendering/pdf`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${CF_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          html: htmlContent,
+          pdfOptions: {
+            format: 'a4',
+            margin: {
+              top: '10mm',
+              right: '12mm',
+              bottom: '10mm',
+              left: '12mm'
+            },
+            printBackground: true
+          }
+        })
+      }
+    );
+  };
+
+  let response = await makeRequest();
+  
+  // Handle rate limiting with Retry-After header
+  let attempt = 0;
+  while (response.status === 429 && attempt < retries) {
+    const retryAfter = response.headers.get('Retry-After') || '10';
+    const waitTime = parseInt(retryAfter, 10) * 1000;
+    console.log(`   ⏳ Rate limited. Waiting ${retryAfter} seconds...`);
+    await delay(waitTime);
+    response = await makeRequest();
+    attempt++;
+  }
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -110,12 +125,24 @@ if (USE_CF_BROWSER_RENDERING) {
   console.log('🖥️  Using local Puppeteer for PDF generation\n');
 }
 
-const resumeFiles = fs.readdirSync(resumesDir)
+// Get the primary resume name from environment (displayed at /)
+const PRIMARY_RESUME_NAME = process.env.RESUME_NAME;
+
+let resumeFiles = fs.readdirSync(resumesDir)
   .filter(file => file.endsWith('.json'));
 
 if (resumeFiles.length === 0) {
   console.warn('⚠️  No resume files found in resumes/');
   process.exit(0);
+}
+
+// Prioritize the primary resume (RESUME_NAME) to be built first
+if (PRIMARY_RESUME_NAME) {
+  const primaryFile = resumeFiles.find(f => f.includes(PRIMARY_RESUME_NAME));
+  if (primaryFile) {
+    resumeFiles = [primaryFile, ...resumeFiles.filter(f => f !== primaryFile)];
+    console.log(`⭐ Prioritizing primary resume: ${PRIMARY_RESUME_NAME}\n`);
+  }
 }
 
 let builtCount = 0;
@@ -184,9 +211,9 @@ for (const file of resumeFiles) {
   builtCount++;
   console.log('');
   
-  // Add delay between API calls to avoid rate limiting
+  // Add delay between API calls to avoid rate limiting (10 seconds recommended by CF docs)
   if (USE_CF_BROWSER_RENDERING) {
-    await delay(2000);
+    await delay(10000);
   }
 }
 
@@ -200,7 +227,7 @@ console.log(`Built ${builtCount} resume(s)`);
 console.log('');
 console.log('📋 Resume URLs:');
 
-const domain = process.env.DOMAIN || 'your-domain.com';
+const domain = process.env.DOMAIN || 'cv.xenking.pro';
 const latestResumes = resumeFiles.filter(f => !f.match(/\.\d{4}-\d{2}-\d{2}T/));
 for (const file of latestResumes) {
   const resumeData = JSON.parse(fs.readFileSync(path.join(resumesDir, file), 'utf8'));
