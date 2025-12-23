@@ -30,6 +30,9 @@ export default defineConfig({
   build: {
     outDir: outDir,
   },
+  define: {
+    'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl),
+  },
   resolve: {
     alias: {
       // remove the "Module "fs" has been externalized" warning for ejs

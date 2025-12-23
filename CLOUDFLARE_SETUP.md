@@ -66,13 +66,13 @@ Ensure:
 Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Work on Editor
 
 ```bash
-npm run dev-site
+pnpm run dev-site
 ```
 
 Opens editor at `http://localhost:5173`
@@ -80,7 +80,7 @@ Opens editor at `http://localhost:5173`
 ### Build Everything
 
 ```bash
-npm run build-all
+pnpm run build-all
 ```
 
 Builds editor site and all resume versions.
@@ -88,7 +88,7 @@ Builds editor site and all resume versions.
 ### Test Locally with Wrangler
 
 ```bash
-npm run build-all
+pnpm run build-all
 npx wrangler dev
 ```
 
@@ -112,7 +112,7 @@ Opens local worker at `http://localhost:8787`
 **Step 2: Version the resume** (backs up old version):
 
 ```bash
-npm run version-resume path/to/your-resume.json
+pnpm run version-resume path/to/your-resume.json
 ```
 
 This copies your resume to `resumes/Example CV.json` and backs up any existing version.
@@ -151,7 +151,7 @@ Replace `your-domain.com` with your actual domain from `.env`:
 
 ```bash
 # Build everything
-npm run build-all
+pnpm run build-all
 
 # Deploy to Cloudflare Workers
 npx wrangler deploy
@@ -175,18 +175,18 @@ Push to `master` branch triggers automatic build and deployment via GitHub Actio
 
 - Verify `RESUME_NAME` in `wrangler.toml` matches `meta.name` in your resume JSON
 - Check that `resumes/Example CV.json` exists
-- Run `npm run build-all` to rebuild
+- Run `pnpm run build-all` to rebuild
 - Verify `dist/index.html` was created
 
 ### Versioned resume not accessible
 
 - Ensure the versioned file exists in `resumes/` folder
-- Run `npm run build-resumes` to rebuild resume outputs
+- Run `pnpm run build-resumes` to rebuild resume outputs
 - Check `dist/resume/` for built files
 
 ### Editor not loading
 
-- Verify `npm run build-site` completes successfully
+- Verify `pnpm run build-site` completes successfully
 - Check that `dist/` directory contains built files
 - Review `assets.directory` path in `wrangler.toml`
 

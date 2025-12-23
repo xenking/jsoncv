@@ -56,7 +56,7 @@ If you fork this repository, update the environment variables in `.github/workfl
   env:
     DOMAIN: cv.example.com       # Change to your domain
     TWITTER_USERNAME: yourhandle  # Change to your handle
-  run: npm run build-all
+  run: pnpm run build-all
 ```
 
 You'll also need to add these GitHub secrets:
@@ -76,10 +76,10 @@ cp .env.example .env
 nano .env
 
 # Run local development
-npm run dev-site
+pnpm run dev-site
 
 # Build with your domain
-npm run build-all
+pnpm run build-all
 ```
 
 The `DOMAIN` environment variable is used in:

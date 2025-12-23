@@ -22,7 +22,7 @@ This document explains how resume versioning works in the jsoncv project with lo
 
 When you update a resume:
 
-1. **Run version command:** `npm run version-resume path/to/new-resume.json`
+1. **Run version command:** `pnpm run version-resume path/to/new-resume.json`
 2. **Script reads `meta.name`** from your JSON file (e.g., "Example CV")
 3. **Backup old version:** If `resumes/Example CV.json` exists, renames to `resumes/Example CV.2024-12-22T07-00-00.json`
 4. **Copy new version:** Copies new file to `resumes/Example CV.json`
@@ -44,10 +44,10 @@ To update your resume with versioning:
 ```bash
 # 1. Edit your resume JSON file (e.g., sample.cv.json)
 # 2. Run the version command
-npm run version-resume sample.cv.json
+pnpm run version-resume sample.cv.json
 
 # Or version any other resume file
-npm run version-resume path/to/my-updated-resume.json
+pnpm run version-resume path/to/my-updated-resume.json
 ```
 
 The script will:
@@ -61,7 +61,7 @@ The script will:
 To build HTML versions of all resumes:
 
 ```bash
-npm run build-resumes
+pnpm run build-resumes
 ```
 
 This will:
@@ -73,7 +73,7 @@ This will:
 ### Build Everything
 
 ```bash
-npm run build-all
+pnpm run build-all
 ```
 
 Builds both the editor site and all resume versions.
@@ -144,7 +144,7 @@ git checkout HEAD~1 resumes/Example\ CV.json
 cp "resumes/Example CV.2024-12-22T07-00-00.json" "resumes/Example CV.json"
 
 # Then rebuild
-npm run build-all
+pnpm run build-all
 
 # Commit and push
 git add resumes/

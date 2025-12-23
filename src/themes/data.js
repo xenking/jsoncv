@@ -16,6 +16,7 @@ export function getRenderData(cvData) {
       isHidden: (section) => isHiddenSection(cvData, section),
     },
     varNamePrimaryColor,
+    siteUrl: import.meta.env.VITE_SITE_URL || 'xenking.pro',
   }
 }
 

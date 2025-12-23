@@ -63,4 +63,4 @@ const domain = process.env.DOMAIN || 'your-domain.com';
 console.log(`   Latest JSON: https://${domain}/resume/${resumeName}.json`);
 console.log(`   Latest HTML: https://${domain}/`);
 console.log('');
-console.log('💡 Run "npm run build-all" to build HTML versions');
+console.log('💡 Run "pnpm run build-all" to build HTML versions');

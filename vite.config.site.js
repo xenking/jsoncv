@@ -8,6 +8,7 @@ import { TransformEjs } from './src/lib/vite-plugins';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, 'src')
 const domain = process.env.DOMAIN || 'jsoncv.xenking.pro';
+const siteUrl = process.env.SITE_URL || 'xenking.pro';
 const renderData = {
   meta: {
     title: "jsoncv",
@@ -42,6 +43,9 @@ export default defineConfig({
         preview: resolve(rootDir, 'preview/index.html'),
       },
     },
+  },
+  define: {
+    'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl),
   },
   resolve: {
     alias: {

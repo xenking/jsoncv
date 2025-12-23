@@ -121,11 +121,11 @@ The `index.html` file in the root of the project is the entry point for builing 
 Here are the steps to build a CV HTML using your own data:
 
 1. Make sure that you are using NodeJS version 18 or higher.
-2. Install the dependencies by running: `npm run install`
+2. Install the dependencies by running: `pnpm install`
 3. Build your CV HTML by specifying `DATA_FILENAME` and `OUT_DIR` environment variables:
 
     ```
-    DATA_FILENAME="$HOME/Downloads/mycv/cv.json" OUT_DIR="$HOME/Downloads/mycv" npm run build
+    DATA_FILENAME="$HOME/Downloads/mycv/cv.json" OUT_DIR="$HOME/Downloads/mycv" pnpm run build
     ```
 
     This will build your CV HTML using the data file located at `$HOME/Downloads/mycv/cv.json`,
@@ -161,16 +161,16 @@ you can follow these steps:
     ```
 
 3. Put your CV data file, for example `cv.json`, in the project.
-4. Initialize `package.json` by running `npm init`.
-5. Install jsoncv as a dependency by running `npm i ./jsoncv`.
-6. Copy the `scripts` and `devDependencies` from `./jsoncv/package.json` to `package.json`, and then run `npm i` to install them.
+4. Initialize `package.json` by running `pnpm init`.
+5. Install jsoncv as a dependency by running `pnpm add ./jsoncv`.
+6. Copy the `scripts` and `devDependencies` from `./jsoncv/package.json` to `package.json`, and then run `pnpm install` to install them.
 7. Copy `./jsoncv/vite.json.js` to `vite.json.js` and make the following changes:
    - Change all instances of `./src` to `./jsoncv/src`.
    - Change the value of `dataFilename` to your CV data file, for example `cv.json`.
    - Change `renderData.theme` to the theme you want to use.
 8. Copy `./jsoncv/index.html` to `index.html` and change all instances of `./src` to `./jsoncv/src`.
    Then Copy `./jsoncv/index.scss` to `index.scss`.
-9. Run `npm run build` to test if everything works.
+9. Run `pnpm run build` to test if everything works.
 
 After completing these steps, you can now add your own elements and styles to `index.html` and `index.scss`
 to further customize your CV website. You can use HTML, CSS, and JavaScript to add
@@ -209,7 +209,7 @@ Once you have created a new theme (let's use `yourtheme` as an example),
 you can start developing and previewing it by running the following code:
 
 ```
-THEME=yourtheme npm run dev-site
+THEME=yourtheme pnpm run dev-site
 ```
 
 Pull requests for adding new themes are always welcomed.
