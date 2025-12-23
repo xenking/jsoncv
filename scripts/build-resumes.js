@@ -82,7 +82,7 @@ for (const file of resumeFiles) {
   // Copy JSON to dist/resume/
   const jsonDestPath = path.join(distResumesDir, file);
   fs.copyFileSync(resumePath, jsonDestPath);
-  console.log(`   ✅ JSON: /resume/${file}`);
+  console.log(`   JSON: /resume/${file}`);
   
   // Build HTML version
   const htmlFilename = baseFilename + '.html';
@@ -101,7 +101,7 @@ for (const file of resumeFiles) {
     const builtHtmlPath = path.join(tempOutDir, 'index.html');
     if (fs.existsSync(builtHtmlPath)) {
       fs.copyFileSync(builtHtmlPath, htmlDestPath);
-      console.log(`   ✅ HTML: /resume/${htmlFilename}`);
+      console.log(`   HTML: /resume/${htmlFilename}`);
       
       // Generate PDF from HTML
       const pdfFilename = resumeData.meta.version 
@@ -110,7 +110,7 @@ for (const file of resumeFiles) {
       const pdfDestPath = path.join(distDir, pdfFilename);
       
       await generatePDF(htmlDestPath, pdfDestPath);
-      console.log(`   ✅ PDF: /${pdfFilename}`);
+      console.log(`   PDF: /${pdfFilename}`);
     } else {
       console.warn(`   ⚠️  HTML build not found: ${builtHtmlPath}`);
     }
@@ -132,7 +132,7 @@ if (fs.existsSync(tmpBuildDir)) {
   fs.rmSync(tmpBuildDir, { recursive: true, force: true });
 }
 
-console.log(`✅ Built ${builtCount} resume(s)`);
+console.log(`Built ${builtCount} resume(s)`);
 console.log('');
 console.log('📋 Resume URLs:');
 

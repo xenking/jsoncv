@@ -16,9 +16,8 @@ const outDir = process.env.OUT_DIR || 'dist'
 const siteUrl = process.env.SITE_URL || 'xenking.pro'
 
 const data = require(dataFilename)
-const renderData = getRenderData(data)
+const renderData = getRenderData(data, { siteUrl })
 renderData.theme = process.env.THEME || 'xenking'
-renderData.siteUrl = siteUrl
 renderData.isProduction = process.env.NODE_ENV === 'production'
 renderData.meta = {
   title: data.basics.name,

@@ -47,7 +47,7 @@ if (fs.existsSync(latestPath)) {
   console.log(`📦 Backing up existing resume to: ${versionedFilename}`);
   fs.copyFileSync(latestPath, versionedPath);
   
-  console.log(`✅ Backup created: ${versionedFilename}`);
+  console.log(`Backup created: ${versionedFilename}`);
 } else {
   console.log('ℹ️  No existing resume found (first version)');
 }
@@ -56,7 +56,7 @@ console.log(`⬆️  Copying new resume to: ${latestFilename}`);
 fs.copyFileSync(newResumeFile, latestPath);
 
 console.log('');
-console.log('✅ Resume versioned successfully!');
+console.log('Resume versioned successfully!');
 console.log('');
 console.log('📋 URLs will be:');
 const domain = process.env.DOMAIN || 'your-domain.com';
