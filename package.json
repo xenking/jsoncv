@@ -11,8 +11,9 @@
     "build-site": "vite -c vite.config.site.js build",
     "preview-site": "vite -c vite.config.site.js preview",
     "version-resume": "node scripts/version-resume.js",
+    "install-chrome": "npx puppeteer browsers install chrome",
     "build-resumes": "node scripts/build-resumes.js",
-    "build-all": "pnpm run build-site && pnpm run build-resumes"
+    "build-all": "pnpm run build-site && pnpm run install-chrome && pnpm run build-resumes"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.33",
