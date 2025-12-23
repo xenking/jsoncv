@@ -39,7 +39,7 @@ const data = getCVData()
 if (data) {
 
   upsertStyleTag('base-style', cvBaseStyle)
-  renderThemeOn(themeName, elCV, data, getPrimaryColor())
+  renderThemeOn(themeName, elCV, data, getPrimaryColor(), { isPreview: true })
 
   // change document title
   document.title = getCVTitle(data)

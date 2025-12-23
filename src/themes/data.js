@@ -4,7 +4,7 @@ import { renderMarkdown } from '../lib/markdown';
 
 export const varNamePrimaryColor = '--color-primary'
 
-export function getRenderData(cvData) {
+export function getRenderData(cvData, options = {}) {
   return {
     cv: cvData,
     fn: {
@@ -17,6 +17,7 @@ export function getRenderData(cvData) {
     },
     varNamePrimaryColor,
     siteUrl: import.meta.env.VITE_SITE_URL || 'xenking.pro',
+    isPreview: options.isPreview || false,
   }
 }
 

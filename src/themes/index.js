@@ -38,15 +38,15 @@ export function getThemeNames() {
   return themeNames
 }
 
-export function renderTheme(template, cvData, options) {
-  return ejs.render(template, getRenderData(cvData), options)
+export function renderTheme(template, cvData, options, renderOptions = {}) {
+  return ejs.render(template, getRenderData(cvData, renderOptions), options)
 }
 
 const cvStyleId = 'cv-style'
 
-export function renderThemeOn(name, el, data, primaryColor) {
+export function renderThemeOn(name, el, data, primaryColor, renderOptions = {}) {
   const theme = getTheme(name)
-  el.innerHTML = renderTheme(theme.template, data)
+  el.innerHTML = renderTheme(theme.template, data, {}, renderOptions)
 
   upsertStyleTag(cvStyleId, theme.style)
 
