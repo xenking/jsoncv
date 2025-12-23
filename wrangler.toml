@@ -11,13 +11,13 @@ run_worker_first = true
 # Route to custom domain - UPDATE THESE VALUES FOR YOUR DOMAIN
 [[routes]]
 pattern = "cv.xenking.pro"  # Change this to your domain
-zone_name = "xenking.pro"      # Change this to your Cloudflare zone
+zone_name = "xenking.pro"   # Change this to your Cloudflare zone
 custom_domain = true
 
 # Environment variables
 [vars]
-DOMAIN = "cv.xenking.pro"      # Change this to your domain
-RESUME_NAME = "Richard Hendriks CV"     # Must match meta.name in your resume JSON
+DOMAIN = "cv.xenking.pro"                   # Change this to your domain
+RESUME_NAME = "Vladislav Tishchenko CV"     # Must match meta.name in your resume JSON
 SITE_URL = "xenking.pro"
 
 [observability]

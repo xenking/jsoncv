@@ -1,0 +1,198 @@
+{
+  "$schema": "https://raw.githubusercontent.com/xenking/jsoncv/master/schema/jsoncv.schema.json",
+  "basics": {
+    "name": "Vladislav Tishchenko",
+    "label": "Senior Software Engineer",
+    "email": "job@xenking.pro",
+    "phone": "",
+    "url": "",
+    "summary": "Experienced Software Engineer with a 7-year proven track record of delivering high-value digital solutions. Expert in driving systemic architecture advancements and optimizing user-centric design to accelerate project delivery and amplify user satisfaction.",
+    "location": {
+      "address": "",
+      "postalCode": "",
+      "city": "Melbourne",
+      "countryCode": "AU",
+      "region": "Victoria"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "xenking",
+        "url": "https://linkedin.com/in/xenking"
+      },
+      {
+        "network": "GitHub",
+        "username": "xenking",
+        "url": "https://github.com/xenking"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Merkeleon",
+      "position": "Senior Software Engineer",
+      "url": "https://merkeleon.com",
+      "startDate": "2024-04-01",
+      "summary": "Product: High-loaded distributed game aggregation platform with an average of 50k TPS\nTech Stack: Go, ClickHouse, Kafka, PostgreSQL, Redis, Prometheus, Grafana, Kubernetes, Hetzner",
+      "highlights": [
+        "Managed and executed a currency validation initiative, resulting in a 70% reduction in time and errors, and significantly enhancing the process quality for projects in the setup stage",
+        "Leveraged advanced distributed tracing to analyse and resolve response latency issues, boosting performance by 27%",
+        "Pioneered a dependency inversion framework initiative, achieving a 30% improvement in the new service development process and significantly enhancing service delivery",
+        "Collaborated with cross-functional teams to deliver a new rollout process, achieving a 20% speedup in build time and enabling granular deployments within 2 months",
+        "Optimised the local development process, reducing time-to-market (TTM) by 6% and increasing overall efficiency"
+      ]
+    },
+    {
+      "name": "Gelato",
+      "position": "Senior Software Engineer / Team Lead",
+      "url": "https://gelato.com",
+      "startDate": "2022-11-01",
+      "endDate": "2024-04-01",
+      "summary": "Product: Global B2B E-Commerce Platform for Print-on-Demand\nTech Stack: Go, PHP, PostgreSQL, BigQuery, RabbitMQ, Redis, Datadog, Prometheus, Grafana, Kubernetes, AWS",
+      "highlights": [
+        "Authored a service for preliminary calculation of the production cost per production partner per volume, leading to improving the decision-making routing process with a delivery cost reduction of 40%",
+        "Transitioned Pricing and Agreement services from PHP to Go, reducing feature development time by 50% and multiplying new price processing capacity and speed",
+        "Spearheaded a 4-person engineering team utilising Agile to build a scalable financial service, boosting productivity by 40% and accelerating feature time-to-market by 20%",
+        "Introduced packaged updates for product parameters using changesets, enabling live change previews, enhancing user experience and contributing to a 5% NPS uplift"
+      ]
+    },
+    {
+      "name": "Noveo Group",
+      "location": "Cyprus",
+      "position": "Senior Software Engineer",
+      "url": "https://noveogroup.com",
+      "startDate": "2021-04-01",
+      "endDate": "2022-11-01",
+      "summary": "Product: Retailer-based Advertising Platform - a platform to advertise dynamic product carousels on social media\nTech Stack: Go, PostgreSQL, ClickHouse, ElasticSearch, Prometheus, Grafana, Kubernetes, AWS",
+      "highlights": [
+        "Designed and implemented a service to generate a static landing page per advertisement on the fly, improving the user satisfaction rate by 35%",
+        "Established service to generate a dynamic product carousel, increasing system efficiency by 25% and trimming cloud provider expenses",
+        "Introduced an authentication and authorisation service for secure system access and user rights management, allowing granular access to the system components"
+      ]
+    },
+    {
+      "name": "Astral",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2020-09-01",
+      "endDate": "2021-04-01",
+      "summary": "Product: Fiscal Data Operation System - transmitting fiscal data to tax authorities from cash registers\nTech Stack: Go, NSQ, MongoDB, Redis, ClickHouse, ElasticSearch, Prometheus, Grafana, Baremetal",
+      "highlights": [
+        "Designed and implemented highly data-intensive data processing services from cash registers",
+        "Pioneered referral offers system, leading to increased Gross Profit Margin by 15%",
+        "Crafted a notification system that reduces message delivery latency to clients by 70%",
+        "Accomplished a statistical tracking and analytics service for incoming document flow, enabling real-time alerting and reacting to incidents"
+      ]
+    },
+    {
+      "name": "3BET",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2018-11-01",
+      "endDate": "2020-11-01",
+      "summary": "Product: Sure Bet System - an automated bookmaker's parsing system for finding sure bet situations",
+      "highlights": [
+        "Built bookmaker scrapers to extend the range of supported sure bet situations for different bookmakers, leading to an increased number of sure bets with greater audience coverage\nStack: Go, Redis, WebSocket, PostgreSQL",
+        "Devised a trading bot for a defined strategy on a crypto exchange, which led to a fixed percentage of profit based on the deposit, with minimal risks\nStack: Go, Redis, PostgreSQL, Telegram Bot API",
+        "Developed a monitoring system for the automatic processing of errors in parsing services\nStack: Go, Redis, PostgreSQL, Prometheus, Grafana"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Tomsk State University of Control Systems and Radioelectronics",
+      "url": "",
+      "area": "Software Engineering",
+      "studyType": "Bachelor",
+      "startDate": "2017-09-01",
+      "endDate": "2021-06-01",
+      "score": "",
+      "courses": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming",
+      "level": "Senior",
+      "keywords": [
+        "Go",
+        "SQL",
+        "Bash",
+        "DRY",
+        "KISS",
+        "SOLID",
+        "GRASP",
+        "TDD & BDD"
+      ]
+    },
+    {
+      "name": "Architecture",
+      "level": "Senior",
+      "keywords": [
+        "SOA",
+        "CQRS",
+        "DDD",
+        "Microservices Arch",
+        "Event sourcing",
+        "12 Factor App",
+        "HA Distributed Systems"
+      ]
+    },
+    {
+      "name": "Databases & Brokers",
+      "level": "Senior",
+      "keywords": [
+        "PostgreSQL",
+        "ClickHouse",
+        "MongoDB",
+        "Redis",
+        "ElasticSearch",
+        "S3",
+        "RabbitMQ",
+        "NSQ",
+        "Kafka"
+      ]
+    },
+    {
+      "name": "DevOps",
+      "level": "Intermediate",
+      "keywords": [
+        "Docker",
+        "Kubernetes",
+        "Helm",
+        "Grafana",
+        "Prometheus",
+        "GitLab CI/CD",
+        "Circle CI",
+        "ELK",
+        "Datadog"
+      ]
+    },
+    {
+      "name": "Soft Skills",
+      "level": "",
+      "keywords": [
+        "Responsibility",
+        "Creativity",
+        "Adaptability",
+        "Analytical Thinking",
+        "Team Leadership"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Upper-Intermediate (B2)"
+    }
+  ],
+  "interests": [],
+  "projects": [],
+  "meta": {
+    "name": "Vladislav Tishchenko CV",
+    "canonical": "https://cv.xenking.pro",
+    "lastModified": "2025-12-23T14:15:04+11:00Z",
+    "hiddenSections": [],
+    "theme": "xenking"
+  }
+}
