@@ -26,3 +26,17 @@ enabled = true
 head_sampling_rate = 1
 invocation_logs = true
 persist = true
+
+# Anna's CV deployment
+[env.anna]
+name = "jsoncv-anna"
+
+[[env.anna.routes]]
+pattern = "cv.oliviadilan.com"
+zone_name = "oliviadilan.com"
+custom_domain = true
+
+[env.anna.vars]
+DOMAIN = "cv.oliviadilan.com"
+RESUME_NAME = "Anna Tishchenko CV"
+SITE_URL = "oliviadilan.com"

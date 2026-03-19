@@ -152,6 +152,31 @@ function dateRange(item) {
       </section>
       <% } %>
 
+      <% if (cv.certificates && cv.certificates.length && !fn.isHidden('certificates')) { %>
+      <section class="body-section">
+        <div class="body-section-headline">
+          <h2 class="body-section-headline-text">Certificates</h2>
+          <div class="body-section-headline-line"></div>
+        </div>
+        <% cv.certificates.forEach(function(item) { %>
+        <div class="body-section-item">
+          <div class="body-section-item-title">
+            <h2 class="body-section-item-title-text"><%= item.name %></h2>
+            <div class="body-section-item-title-container">
+              <h3 class="body-section-item-text">
+                <%= item.issuer %>
+                <% if (item.url) { %>
+                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
+                <% } %>
+              </h3>
+              <% if (item.date) { %><div class="body-section-item-title-date"><%= item.date %></div><% } %>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </section>
+      <% } %>
+
       <% if (cv.skills && cv.skills.length && !fn.isHidden('skills')) { %>
       <section class="body-list-container">
         <div class="body-section-headline">
@@ -159,7 +184,7 @@ function dateRange(item) {
           <div class="body-section-headline-line"></div>
         </div>
         <div class="body-list">
-          
+
           <% if (cv.languages && cv.languages.length) { %>
           <div class="body-list-item">
             <div class="body-list-item-title">
@@ -269,31 +294,6 @@ function dateRange(item) {
           <% if (item.summary) { %>
             <div class="body-section-item-description-text"><%- fn.renderMarkdown(item.summary) %></div>
           <% } %>
-        </div>
-        <% }) %>
-      </section>
-      <% } %>
-
-      <% if (cv.certificates && cv.certificates.length && !fn.isHidden('certificates')) { %>
-      <section class="body-section">
-        <div class="body-section-headline">
-          <h2 class="body-section-headline-text">Certificates</h2>
-          <div class="body-section-headline-line"></div>
-        </div>
-        <% cv.certificates.forEach(function(item) { %>
-        <div class="body-section-item">
-          <div class="body-section-item-title">
-            <h2 class="body-section-item-title-text"><%= item.name %></h2>
-            <div class="body-section-item-title-container">
-              <h3 class="body-section-item-text">
-                <%= item.issuer %>
-                <% if (item.url) { %>
-                  <a href="<%= item.url %>" target="_blank" class="external-link"><%= fn.noSchemaURL(item.url) %></a>
-                <% } %>
-              </h3>
-              <% if (item.date) { %><div class="body-section-item-title-date"><%= item.date %></div><% } %>
-            </div>
-          </div>
         </div>
         <% }) %>
       </section>

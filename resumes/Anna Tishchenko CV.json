@@ -1,0 +1,199 @@
+{
+  "$schema": "https://raw.githubusercontent.com/xenking/jsoncv/master/schema/jsoncv.schema.json",
+  "basics": {
+    "name": "Anna Tishchenko, PMP",
+    "label": "Project Manager",
+    "email": "job@oliviadilan.com",
+    "phone": "",
+    "url": "",
+    "summary": "Results-oriented Project Manager with PMP® certification from PMI, specializing in IT. Extensive cross-functional experience and a proven ability to deliver complex projects on time and within budget. Known for leading diverse teams, optimizing processes, and ensuring high client satisfaction, excelling in driving project success and achieving exceptional results.",
+    "location": {
+      "address": "",
+      "postalCode": "",
+      "city": "Melbourne",
+      "countryCode": "AU",
+      "region": "Victoria"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "oliviadilan",
+        "url": "https://linkedin.com/in/oliviadilan"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "SOFTSWISS",
+      "position": "Project Manager",
+      "url": "",
+      "startDate": "2023-05-01",
+      "summary": "Responsibilities: Client requirements gathering, project planning and scheduling, cross-functional team coordination, risk assessment and mitigation, technical solution implementation, B2C and B2B project management",
+      "highlights": [
+        "Successfully managed projects ranging from three to eight months using different methodologies (Agile, Hybrid, Waterfall), consistently delivering on time and within budget",
+        "Maintained a 95% client satisfaction rate, resulting in repeat business and long-term client relationships",
+        "Demonstrated technical proficiency by independently configuring and customizing client websites",
+        "Ensured effective risk management and stakeholder communication, reducing project disruptions by 30% and maximizing efficiency"
+      ]
+    },
+    {
+      "name": "ANRO IT",
+      "position": "Project Manager",
+      "url": "",
+      "startDate": "2022-04-01",
+      "endDate": "2023-03-01",
+      "summary": "Responsibilities: Client communication in Russian and English, resource allocation across multiple projects, internal and external reporting, project documentation, team onboarding, process modernization",
+      "highlights": [
+        "Successfully led teams in delivering high-value IT projects simultaneously, achieving a customer satisfaction rating of 90% and on-time delivery",
+        "Strengthened project management processes across the company, implementing Project Management Office, improving project estimation accuracy by 25%, and reducing project delivery time by 20%",
+        "Effectively managed resources across multiple projects, making informed trade-offs that reduced conflicts and increased productivity"
+      ]
+    },
+    {
+      "name": "Contented",
+      "position": "Product Manager",
+      "url": "",
+      "startDate": "2021-11-01",
+      "endDate": "2022-03-01",
+      "summary": "",
+      "highlights": [
+        "Developed and launched a successful educational product, generating $10,000+ in revenue within a month",
+        "Conducted comprehensive market and competitive analysis, and identified and captured untapped market opportunities",
+        "Established and maintained a strong working relationship with internal and external stakeholders, resulting in 80% user satisfaction and excellent feedback from sponsors"
+      ]
+    },
+    {
+      "name": "Printum",
+      "position": "Product Manager",
+      "url": "",
+      "startDate": "2021-06-01",
+      "endDate": "2021-10-01",
+      "summary": "",
+      "highlights": [
+        "Led a cross-functional team of DevOps, analysts, and developers in launching a new product with an 80% acceptance rate after testing",
+        "Successfully managed the product feature development lifecycle, from ideation to launch, ensuring a seamless and efficient process",
+        "Improved product documentation, leading to a 20% reduction in errors on the customer's side, and increased developer engagement"
+      ]
+    },
+    {
+      "name": "SMART WORLD",
+      "position": "Project Manager",
+      "url": "",
+      "startDate": "2019-04-01",
+      "endDate": "2021-05-01",
+      "summary": "",
+      "highlights": [
+        "Successfully managed and delivered multiple complex software projects simultaneously, ensuring adherence to project timelines and budgets",
+        "Played a key role in building and onboarding a team of high-performing developers, resulting in increased team efficiencies",
+        "Drove the adoption of new project management processes, resulting in a 30% increase in project delivery efficiency",
+        "Established and maintained excellent relationships with clients, resulting in a repeat business rate of 70%"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Tomsk State University of Control Systems and Radioelectronics",
+      "url": "",
+      "area": "Computer Engineering",
+      "studyType": "Bachelor",
+      "startDate": "2018-09-01",
+      "endDate": "2022-06-01",
+      "score": "",
+      "courses": []
+    },
+    {
+      "institution": "Project Manager Professional, PMP Exam Preparation Course",
+      "url": "",
+      "area": "Ivan Selihovkin",
+      "studyType": "Course",
+      "startDate": "2021-08-01",
+      "endDate": "2022-08-01",
+      "score": "",
+      "courses": []
+    },
+    {
+      "institution": "IT Management Association Europe",
+      "url": "",
+      "area": "Corporate Project Management Training",
+      "studyType": "Course",
+      "startDate": "2024-02-01",
+      "endDate": "2024-05-01",
+      "score": "",
+      "courses": []
+    }
+  ],
+  "certificates": [
+    {
+      "name": "PMP (Project Management Professional)",
+      "issuer": "PMI (Project Management Institute)"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Methodologies",
+      "level": "",
+      "keywords": [
+        "Agile",
+        "Waterfall",
+        "Hybrid model",
+        "Kanban",
+        "Scrum"
+      ]
+    },
+    {
+      "name": "Tools",
+      "level": "",
+      "keywords": [
+        "MS Project",
+        "Atlassian Jira",
+        "Confluence",
+        "Trello"
+      ]
+    },
+    {
+      "name": "Soft Skills",
+      "level": "",
+      "keywords": [
+        "Cross-functional team management",
+        "Process management",
+        "Mentoring"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Advanced (C2)"
+    },
+    {
+      "language": "German",
+      "fluency": "Beginner (A2)"
+    },
+    {
+      "language": "Russian",
+      "fluency": "Native"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Psychology"
+    },
+    {
+      "name": "Foreign languages"
+    },
+    {
+      "name": "Self-development"
+    }
+  ],
+  "projects": [],
+  "meta": {
+    "name": "Anna Tishchenko CV",
+    "canonical": "https://cv.oliviadilan.com",
+    "lastModified": "2025-06-19T00:00:00+04:00",
+    "hiddenSections": [
+      "interests",
+      "meta"
+    ],
+    "theme": "xenking"
+  }
+}
