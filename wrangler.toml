@@ -8,16 +8,21 @@ directory = "./dist"
 binding = "ASSETS"
 run_worker_first = true
 
-# Route to custom domain - UPDATE THESE VALUES FOR YOUR DOMAIN
+# Route to custom domains
 [[routes]]
-pattern = "cv.xenking.pro"  # Change this to your domain
-zone_name = "xenking.pro"   # Change this to your Cloudflare zone
+pattern = "cv.xenking.pro"
+zone_name = "xenking.pro"
+custom_domain = true
+
+[[routes]]
+pattern = "cv.oliviadilan.com"
+zone_name = "oliviadilan.com"
 custom_domain = true
 
 # Environment variables
 [vars]
-DOMAIN = "cv.xenking.pro"                   # Change this to your domain
-RESUME_NAME = "Vladislav Tishchenko CV"     # Must match meta.name in your resume JSON
+DOMAIN = "cv.xenking.pro"
+RESUME_NAME = "Vladislav Tishchenko CV"
 SITE_URL = "xenking.pro"
 
 [observability]
@@ -26,17 +31,3 @@ enabled = true
 head_sampling_rate = 1
 invocation_logs = true
 persist = true
-
-# Anna's CV deployment
-[env.anna]
-name = "jsoncv-anna"
-
-[[env.anna.routes]]
-pattern = "cv.oliviadilan.com"
-zone_name = "oliviadilan.com"
-custom_domain = true
-
-[env.anna.vars]
-DOMAIN = "cv.oliviadilan.com"
-RESUME_NAME = "Anna Tishchenko CV"
-SITE_URL = "oliviadilan.com"
