@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="main">
-    <div class="sidebar column">
+    <div class="sidebar">
       <div class="logo">
         <a href="/"><span class="t-jsoncv"><span class="t-json">JSON</span>CV</span></a>
         <div style="padding: 2px 5px;">Editor</div>
@@ -58,8 +58,12 @@
       </div>
       <div class="editor-toc"></div>
     </div>
-    <div class="middle column editor-container"></div>
-    <div class="right column">
+    <div class="middle-wrap">
+      <button id="fn-toggle-sidebar" class="sidebar-toggle" title="Toggle sidebar">&#9776;</button>
+      <div class="middle editor-container"></div>
+    </div>
+    <div class="resizer" id="resizer"></div>
+    <div class="right">
       <div class="output-json" style="display: none;">
         <div class="output-json__toolbar">
           <span class="output-json__title">JSON Preview</span>

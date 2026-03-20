@@ -39,6 +39,23 @@ const data = getCVData()
 if (data) {
 
   upsertStyleTag('base-style', cvBaseStyle)
+
+  // Approximate page break indicators (dashed lines at A4 intervals)
+  // These are visual guides only — actual PDF breaks may differ slightly
+  upsertStyleTag('page-breaks', `
+    .cv-container {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 1122px,
+        #ccc 1122px,
+        transparent 1123px,
+        transparent 1124px
+      );
+    }
+    @media print { .cv-container { background-image: none !important; } }
+  `)
+
   renderThemeOn(themeName, elCV, data, getPrimaryColor(), { isPreview: true })
 
   // change document title

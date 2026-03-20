@@ -7,35 +7,74 @@ button {
 }
 
 #main {
-  display: grid;
-  grid-template-columns: 150px minmax(500px, 1fr) 1fr;
-  grid-template-rows: 100vh;
-
-  // keep the middle column 750px wide when the screen is larger that 150 + 2 * 750px
-  @media screen and (min-width: 1650px) {
-    grid-template-columns: 150px 750px 1fr;
-  }
-
-  > .column {
-    overflow-y: auto;
-  }
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 
   .sidebar {
+    width: 150px;
+    flex-shrink: 0;
     padding: 0 var(--gap2) 0 var(--gap);
     overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .middle-wrap {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   .middle {
+    flex: 1;
     padding-right: var(--gap2);
-    margin-left: var(--sidebar-width);
+    overflow-y: auto;
     scroll-behavior: smooth;
   }
+  .resizer {
+    width: 6px;
+    cursor: col-resize;
+    background: var(--grey-2);
+    flex-shrink: 0;
+    transition: background 0.15s;
+
+    &:hover, &.resizer--active {
+      background: #228be6;
+    }
+  }
   .right {
+    width: 50%;
+    min-width: 300px;
+    flex-shrink: 0;
+    overflow: hidden;
     border-left: 1px solid var(--grey-2);
+    background: #f0f0f0;
+    display: flex;
+  }
+
+  .sidebar--hidden {
+    display: none !important;
   }
 }
 .editor-container {
   [data-schemapath]:target {
     animation: bgFade 1s forwards;
+  }
+}
+
+.sidebar-toggle {
+  @include vars.button-base;
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  font-size: 16px;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  flex-shrink: 0;
+  align-self: flex-start;
+
+  &:hover {
+    color: #333;
   }
 }
 
@@ -191,7 +230,7 @@ button {
 
 .sidebar-btn-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 4px;
 }
 
@@ -206,6 +245,7 @@ button {
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
+  width: 100%;
 
   &:hover {
     border-color: #228be6;
@@ -217,17 +257,21 @@ button {
 // ── Output panels ──
 
 .output-html {
-  // set a fixed size so that responsive styles won't be applied in the iframe
-  width: 795px; // 210mm ≈ 793px
+  width: 795px;
   height: 100%;
-  margin: 0; padding: 0; border: 0;
+  margin: 0; padding: 0;
+  border: 0;
   border-right: 1px solid var(--grey-2);
+  display: block;
+  flex-shrink: 0;
+  background: #fff;
 }
 
 .output-json {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #fff;
 }
 
 .output-json__toolbar {
@@ -269,7 +313,7 @@ button {
   padding: var(--gap);
   margin: 0;
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .code-block {

@@ -6,7 +6,7 @@
 
 // ── Custom Scrollbars ──
 
-.column {
+.sidebar, .middle, .right {
   scrollbar-width: thin;
   scrollbar-color: var(--grey-1) transparent;
 

@@ -189,6 +189,11 @@ buildTOC(data)
 
 // --- Sidebar actions ---
 
+// Toggle sidebar
+document.getElementById('fn-toggle-sidebar').addEventListener('click', () => {
+  document.querySelector('.sidebar').classList.toggle('sidebar--hidden')
+})
+
 // Toggle preview/JSON
 document.getElementById('fn-toggle-preview').addEventListener('click', () => {
   const isHtmlHidden = outputHtmlIframe.style.display === 'none'
@@ -301,3 +306,39 @@ themeNames.forEach(name => {
 
 themeSelectEl.value = getTheme()
 themeSelectEl.addEventListener('change', (e) => saveTheme(e.target.value))
+
+// --- Resizable panes ---
+const resizer = document.getElementById('resizer')
+const rightPane = document.querySelector('.right')
+
+if (resizer && rightPane) {
+  let isResizing = false
+
+  resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+    isResizing = true
+    resizer.classList.add('resizer--active')
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+    // Prevent iframe from eating mouse events
+    outputHtmlIframe.style.pointerEvents = 'none'
+  })
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return
+    const mainEl = document.getElementById('main')
+    const mainRect = mainEl.getBoundingClientRect()
+    const newRightWidth = mainRect.right - e.clientX
+    const clamped = Math.max(300, Math.min(newRightWidth, mainRect.width - 450))
+    rightPane.style.width = clamped + 'px'
+  })
+
+  document.addEventListener('mouseup', () => {
+    if (!isResizing) return
+    isResizing = false
+    resizer.classList.remove('resizer--active')
+    document.body.style.cursor = ''
+    document.body.style.userSelect = ''
+    outputHtmlIframe.style.pointerEvents = ''
+  })
+}
