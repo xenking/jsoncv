@@ -42,6 +42,10 @@ export function renderField(key, value, fieldType, options = {}) {
       return renderStringArray(key, value, { description, onChange, isTextarea: isTextareaArrayItems(key) })
     case 'object':
       return renderNestedObject(key, value, options)
+    case 'boolean':
+      return renderBoolean(key, value, { description, onChange })
+    case 'enum':
+      return renderEnum(key, value, { description, onChange, schema: options.schema })
     default:
       return renderTextInput(key, value, { description, onChange, type: fieldType })
   }
@@ -289,6 +293,74 @@ function renderStringArray(key, value, { description, onChange, isTextarea }) {
   }
 
   renderItems()
+
+  if (description) {
+    const desc = document.createElement('span')
+    desc.className = 'cv-field__desc'
+    desc.textContent = description
+    wrapper.appendChild(desc)
+  }
+
+  return wrapper
+}
+
+function renderBoolean(key, value, { description, onChange }) {
+  const wrapper = document.createElement('div')
+  wrapper.className = 'cv-field cv-field--boolean'
+  wrapper.dataset.field = key
+
+  const label = document.createElement('label')
+  label.className = 'cv-field__checkbox-label'
+
+  const checkbox = document.createElement('input')
+  checkbox.type = 'checkbox'
+  checkbox.checked = !!value
+  checkbox.addEventListener('change', () => {
+    onChange && onChange(checkbox.checked)
+  })
+  label.appendChild(checkbox)
+
+  const text = document.createElement('span')
+  text.textContent = humanizeKey(key)
+  label.appendChild(text)
+
+  wrapper.appendChild(label)
+
+  if (description) {
+    const desc = document.createElement('span')
+    desc.className = 'cv-field__desc'
+    desc.textContent = description
+    wrapper.appendChild(desc)
+  }
+
+  return wrapper
+}
+
+function renderEnum(key, value, { description, onChange, schema }) {
+  const wrapper = document.createElement('div')
+  wrapper.className = 'cv-field'
+  wrapper.dataset.field = key
+
+  const label = document.createElement('label')
+  label.className = 'cv-field__label'
+  label.textContent = humanizeKey(key)
+  wrapper.appendChild(label)
+
+  const select = document.createElement('select')
+  select.className = 'cv-field__input'
+
+  for (const opt of (schema?.enum || [])) {
+    const option = document.createElement('option')
+    option.value = opt
+    option.textContent = opt
+    if (opt === value) option.selected = true
+    select.appendChild(option)
+  }
+
+  select.addEventListener('change', () => {
+    onChange && onChange(select.value)
+  })
+  wrapper.appendChild(select)
 
   if (description) {
     const desc = document.createElement('span')

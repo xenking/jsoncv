@@ -416,7 +416,7 @@ function dateRange(item) {
       const showLastMod = cv.meta?.lastModified && !fn.isFieldHidden('meta', 'lastModified');
       const hasFooterContent = !isPreview || showVersion || showLastMod;
     %>
-    <% if (cv.meta && cv.meta.showFooter !== false && hasFooterContent) { %>
+    <% if (cv.meta && cv.meta.showFooter === true && hasFooterContent) { %>
     <footer class="pdf-footer">
       <%
         const resumeName = cv.meta.name || cv.basics.name || 'Resume';

@@ -546,8 +546,8 @@
         },
         "showFooter": {
           "type": "boolean",
-          "description": "Show the footer with download link, site URL and last modified date in the rendered CV. Default: true",
-          "default": true
+          "description": "Show the footer with download link, site URL and last modified date in the rendered CV",
+          "default": false
         },
         "hiddenFields": {
           "type": "object",

@@ -62,6 +62,12 @@ export function getFieldType(propSchema, key, rootSchema) {
   // Date detection (iso8601 pattern)
   if (schema.pattern && schema.pattern.includes('[0-9]{3}')) return 'date'
 
+  // Boolean
+  if (schema.type === 'boolean') return 'boolean'
+
+  // Enum (select dropdown)
+  if (schema.enum) return 'enum'
+
   return 'text'
 }
 

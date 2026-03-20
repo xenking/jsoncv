@@ -358,6 +358,27 @@ textarea.cv-field__input {
   margin-top: 2px;
 }
 
+// ── Boolean Checkbox ──
+
+.cv-field--boolean {
+  margin-bottom: 6px;
+}
+
+.cv-field__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  padding: 4px 0;
+
+  input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+  }
+}
+
 // ── Nested Object ──
 
 .cv-field--object {
