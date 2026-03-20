@@ -193,6 +193,7 @@
     "canonical": "https://cv.xenking.pro",
     "lastModified": "2025-12-23T14:15:04+11:00Z",
     "hiddenSections": [],
-    "theme": "xenking"
+    "theme": "xenking",
+    "showFooter": true
   }
 }

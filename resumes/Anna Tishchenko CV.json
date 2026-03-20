@@ -239,6 +239,6 @@
     "canonical": "https://cv.oliviadilan.com",
     "hiddenSections": ["interests"],
     "theme": "xenking",
-    "showFooter": ""
+    "showFooter": true
   }
 }
