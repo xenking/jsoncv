@@ -40,7 +40,7 @@ export const propertiesToObject = function(properties) {
         v = []
         break
       case 'object':
-        v = propertiesToObject(def.properties)
+        v = def.properties ? propertiesToObject(def.properties) : {}
         break
     }
     if (v === undefined) continue

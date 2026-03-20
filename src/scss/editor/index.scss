@@ -1,6 +1,6 @@
 @use '../basic';
 @use '../vars';
-@use 'json-editor';
+@use 'cv-editor';
 
 button {
   font-size: 13px;
@@ -22,10 +22,12 @@ button {
 
   .sidebar {
     padding: 0 var(--gap2) 0 var(--gap);
+    overflow-x: hidden;
   }
   .middle {
     padding-right: var(--gap2);
     margin-left: var(--sidebar-width);
+    scroll-behavior: smooth;
   }
   .right {
     border-left: 1px solid var(--grey-2);
@@ -45,36 +47,71 @@ button {
 
 .editor-toc {
   padding-left: 5px;
+  padding-top: var(--gap2);
   padding-bottom: var(--gap2);
-  margin-bottom: var(--gap2);
-  border-bottom: 1px solid var(--grey-2);
-  font-size: 15px;
+  border-top: 1px solid var(--grey-2);
+  font-size: 13px;
+  overflow: hidden;
 
-  ul {
+  > ul {
     margin: 0;
-    padding: 0 0 0 12px;
+    padding: 0 0 0 10px;
+    list-style: none;
 
-    li {
-      margin: 5px 0;
+    > li {
+      margin: 4px 0;
 
-      ul {
-        margin-left: 5px;
-      }
-    }
+      > ul {
+        margin: 2px 0 2px 8px;
+        padding: 0;
+        list-style: none;
 
-    a {
-      text-decoration: none;
-      color: #333;
-      &:hover {
-        text-decoration: underline;
+        > li {
+          margin: 1px 0;
+        }
       }
     }
   }
+
+  a {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.15s;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      color: #228be6;
+    }
+    &.active {
+      color: #228be6;
+      font-weight: 600;
+    }
+  }
+
+  // Sub-items are dimmer and smaller
+  ul ul a {
+    font-size: 11px;
+    color: #888;
+  }
 }
+
+// ── Sidebar Groups ──
 
 .app-actions {
   > * {
-    margin-bottom: 8px;
+    margin-bottom: 0;
+  }
+}
+
+.sidebar-group {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--grey-2);
+
+  &:last-child {
+    border-bottom: none;
   }
 
   .color-picker {
@@ -85,6 +122,7 @@ button {
     font-size: 13px;
     display: block;
     width: 85px;
+    margin-bottom: 6px;
 
     &:active {
       border-color: #555;
@@ -142,6 +180,42 @@ button {
   }
 }
 
+.sidebar-group__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.sidebar-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sidebar-btn {
+  @include vars.button-base;
+  border: 1px solid var(--grey-2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #fff;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+// ── Output panels ──
+
 .output-html {
   // set a fixed size so that responsive styles won't be applied in the iframe
   width: 795px; // 210mm ≈ 793px
@@ -151,7 +225,51 @@ button {
 }
 
 .output-json {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.output-json__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px var(--gap);
+  border-bottom: 1px solid var(--grey-2);
+  flex-shrink: 0;
+}
+
+.output-json__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.output-json__copy-btn {
+  @include vars.button-base;
+  border: 1px solid var(--grey-2);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 12px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+.output-json__content {
   padding: var(--gap);
+  margin: 0;
+  flex: 1;
+  overflow: auto;
 }
 
 .code-block {
@@ -160,10 +278,6 @@ button {
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-x: auto;
-}
-
-dialog {
-  width: min(400px, 80%);
 }
 
 

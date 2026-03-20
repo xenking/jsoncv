@@ -1,13 +1,7 @@
-import 'iconify-icon'; // import only
+import dayjs from 'dayjs'
 
-import $ from 'cash-dom';
-import dayjs from 'dayjs';
-import objectPath from 'object-path';
-
-import { JSONEditor } from '@json-editor/json-editor/dist/jsoneditor';
-
-import * as sampleModule from '../../sample.cv.json';
-import * as jsoncvSchemaModule from '../../schema/jsoncv.schema.json';
+import * as sampleModule from '../../sample.cv.json'
+import * as jsoncvSchemaModule from '../../schema/jsoncv.schema.json'
 import {
   getCVData,
   getPrimaryColor,
@@ -15,382 +9,295 @@ import {
   saveCVJSON,
   savePrimaryColor,
   saveTheme,
-} from '../lib/store';
+} from '../lib/store'
 import {
   createElement,
   downloadContent,
   downloadIframeHTML,
   propertiesToObject,
-  traverseDownObject,
-} from '../lib/utils';
-import { getCVTitle } from '../themes/data';
-import { getThemeNames } from '../themes';
-import { getIconSVG } from '../lib/icons';
-import { registerIconLib } from './je-iconlib';
-import { registerTheme } from './je-theme';
+} from '../lib/utils'
+import { getCVTitle } from '../themes/data'
+import { getThemeNames } from '../themes'
+import { CVEditor } from './cv-editor'
+import { getItemTitle, humanizeKey } from './schema-utils'
 
-const propertiesInOrder = ['basics', 'education', 'work', 'projects', 'sideProjects', 'skills', 'languages', 'interests', 'references', 'awards', 'publications', 'volunteer', 'certificates', 'meta']
-const basicsPropertiesInOrder = ['name', 'label', 'email', 'phone', 'url', 'summary', 'image', 'location', 'profiles']
+// --- Schema ---
+const jsoncvSchema = structuredClone(jsoncvSchemaModule.default)
 
-// toc elements
-const elToc = document.querySelector('.editor-toc')
-const tocUl = createElement('ul', {
-  parent: elToc
-})
-const basicsUl = createElement('ul', {
-  parent: tocUl
-})
-
-
-// copy the object to remove the readonly restriction on module
-const jsoncvSchema = {...jsoncvSchemaModule.default}
-
-// add propertyOrder to schema, and add links to toc
-propertiesInOrder.forEach((name, index) => {
-  jsoncvSchema.properties[name].propertyOrder = index
-
-  const li = createElement('li', {parent: tocUl})
-  createElement('a', {
-    text: name,
-    attrs: {
-      href: `#root.${name}`
-    },
-    parent: li,
-  })
-
-  if (name === 'basics') {
-    li.appendChild(basicsUl)
-  }
-})
-basicsPropertiesInOrder.forEach((name, index) => {
-  jsoncvSchema.properties.basics.properties[name].propertyOrder = index
-  // only add location and profiles to basics toc
-  if (!['location', 'profiles'].includes(name)) return
-  const li = createElement('li', {parent: basicsUl})
-  createElement('a', {
-    text: name,
-    attrs: {
-      href: `#root.basics.${name}`
-    },
-    parent: li,
-  })
-})
-
-// add headerTemplate for each type:array in schema
-traverseDownObject(jsoncvSchema, (key, obj) => {
-  let noun = key
-  if (noun.endsWith('s')) noun = noun.slice(0, -1)
-  if (obj.type === 'array' && obj.items) {
-    obj.items.headerTemplate = `${noun} {{i1}}`
-  }
-})
-
-// add format to schema
-const keyFormatMap = {
-  'basics.properties.summary': 'textarea',
-  'work.items.properties.description': 'textarea',
-  'work.items.properties.summary': 'textarea',
-  'work.items.properties.highlights.items': 'textarea',
-  'projects.items.properties.description': 'textarea',
-  'projects.items.properties.highlights.items': 'textarea',
-  'sideProjects.items.properties.description': 'textarea',
-  'skills.items.properties.summary': 'textarea',
-  'languages.items.properties.summary': 'textarea',
-  'references.items.properties.reference': 'textarea',
-  'awards.items.properties.summary': 'textarea',
-  'publications.items.properties.summary': 'textarea',
-  'volunteer.items.properties.summary': 'textarea',
-  'volunteer.items.properties.highlights.items': 'textarea',
-}
-for (const [key, format] of Object.entries(keyFormatMap)) {
-  objectPath.get(jsoncvSchema.properties, key).format = format
-}
-
-// Override date format to use text input instead of HTML date input
-// This allows partial dates (YYYY, YYYY-MM, YYYY-MM-DD) as supported by the schema pattern
-jsoncvSchema.definitions.iso8601.format = 'text'
-
-// change schema title
-jsoncvSchema.title = 'CV Schema'
-
-// change some descriptions
-jsoncvSchema.properties.meta.properties.lastModified.description += '. This will be automatically updated when downloading.'
-
-
-// init data
+// --- Init data ---
 let data = getCVData()
-if (!data) data = sampleModule.default
-
-// initialize editor
-registerTheme(JSONEditor)
-registerIconLib(JSONEditor)
-const elEditorContainer = document.querySelector('.editor-container')
-const editor = new JSONEditor(elEditorContainer, {
-  schema: jsoncvSchema,
-  theme: 'mytheme',
-  iconlib: 'myiconlib',
-  disable_array_delete_all_rows: true,
-  no_additional_properties: true,
-  startval: data,
-});
-// sections that can be hidden in the rendered CV
-const hiddenSections = ['basics', 'summary', 'education', 'work', 'projects', 'sideProjects', 'skills', 'languages', 'interests', 'references', 'awards', 'publications', 'volunteer', 'certificates', 'meta']
-
-function isSectionHidden(sectionName) {
-  const data = editor.getValue()
-  const hidden = data.meta?.hiddenSections || []
-  return hidden.includes(sectionName)
+if (!data) {
+  data = sampleModule.default
+  // Save initial data so the preview iframe can render it
+  const initData = structuredClone(data)
+  if (!initData.meta) initData.meta = {}
+  initData.meta.theme = getTheme()
+  saveCVJSON(JSON.stringify(initData, null, 2))
 }
 
-function toggleSectionVisibility(sectionName) {
-  const data = editor.getValue()
-  if (!data.meta) data.meta = {}
-  if (!data.meta.hiddenSections) data.meta.hiddenSections = []
-  
-  const idx = data.meta.hiddenSections.indexOf(sectionName)
-  if (idx === -1) {
-    data.meta.hiddenSections.push(sectionName)
+// --- Grab output elements BEFORE editor init (onDataChange fires synchronously) ---
+const outputJsonEl = document.querySelector('.output-json')
+const outputJsonContent = document.querySelector('.output-json__content')
+const outputHtmlIframe = document.querySelector('.output-html')
+
+// --- TOC ---
+const tocEl = document.querySelector('.editor-toc')
+const containerEl = document.querySelector('.editor-container')
+let scrollObserver = null
+
+const SECTIONS_ORDER = [
+  'basics', 'education', 'work', 'projects', 'sideProjects',
+  'skills', 'languages', 'interests', 'references', 'awards',
+  'publications', 'volunteer', 'certificates', 'meta'
+]
+
+function buildTOC(cvData) {
+  tocEl.innerHTML = ''
+  const ul = createElement('ul', { parent: tocEl })
+
+  // Use sectionOrder from meta if available, otherwise default
+  const order = cvData.meta?.sectionOrder
+  let sectionKeys
+  if (order && Array.isArray(order) && order.length > 0) {
+    const draggable = order.filter(s => s !== 'basics' && s !== 'meta' && SECTIONS_ORDER.includes(s))
+    const missing = SECTIONS_ORDER.filter(s => s !== 'basics' && s !== 'meta' && !draggable.includes(s))
+    sectionKeys = ['basics', ...draggable, ...missing, 'meta']
   } else {
-    data.meta.hiddenSections.splice(idx, 1)
+    sectionKeys = SECTIONS_ORDER
   }
-  
-  editor.setValue(data)
-}
 
-function updateVisibilityButtonIcon(btn, sectionName) {
-  const isHidden = isSectionHidden(sectionName)
-  btn.innerHTML = ''
-  btn.appendChild(getIconSVG(isHidden ? 'mdi:eye-off' : 'mdi:eye', { dom: true }))
-  const label = document.createElement('span')
-  label.textContent = isHidden ? 'show' : 'hide'
-  btn.appendChild(label)
-  btn.title = isHidden ? `Show ${sectionName} in CV` : `Hide ${sectionName} from CV`
-}
+  for (const name of sectionKeys) {
+    const sectionSchema = jsoncvSchema.properties[name]
+    if (!sectionSchema) continue
 
-function addVisibilityButton(sectionName) {
-  // For 'summary', it's inside basics, so we need special handling
-  let schemaPath = sectionName === 'summary' ? 'root.basics.summary' : `root.${sectionName}`
-  const sectionEl = document.querySelector(`[data-schemapath="${schemaPath}"]`)
-  if (!sectionEl) return
-  
-  const header = sectionEl.querySelector(':scope > .je-header')
-  if (!header) return
-  
-  // Check if button already exists
-  if (header.querySelector('.visibility-toggle')) return
-  
-  // Find or create button holder
-  let btnHolder = header.querySelector('.je-header-button-holder')
-  if (!btnHolder) {
-    // Some sections may not have a button holder, create one
-    btnHolder = document.createElement('span')
-    btnHolder.className = 'je-header-button-holder'
-    header.appendChild(btnHolder)
-  }
-  
-  const btn = document.createElement('button')
-  btn.type = 'button'
-  btn.className = 'visibility-toggle'
-  updateVisibilityButtonIcon(btn, sectionName)
-  
-  btn.addEventListener('click', (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    toggleSectionVisibility(sectionName)
-    updateVisibilityButtonIcon(btn, sectionName)
-  })
-  
-  btnHolder.insertBefore(btn, btnHolder.firstChild)
-}
+    const li = createElement('li', { parent: ul })
+    createElement('a', {
+      text: humanizeKey(name),
+      attrs: { href: `#section-${name}` },
+      parent: li,
+    })
 
-function addVisibilityButtons() {
-  hiddenSections.forEach(sectionName => {
-    addVisibilityButton(sectionName)
-  })
-}
+    const sectionData = cvData[name]
 
-editor.on('ready',() => {
-  // add anchor to each schema element
-  document.querySelectorAll('[data-schemapath]').forEach(el => {
-    const schemapath = el.getAttribute('data-schemapath')
-    el.id = schemapath
-  })
-  
-  // add visibility toggle buttons to sections
-  addVisibilityButtons()
-})
-
-editor.on('change', () => {
-  // update visibility button icons when data changes
-  document.querySelectorAll('.visibility-toggle').forEach(btn => {
-    const sectionEl = btn.closest('[data-schemapath]')
-    if (sectionEl) {
-      const schemaPath = sectionEl.getAttribute('data-schemapath')
-      let sectionName = schemaPath.replace('root.', '')
-      if (sectionName === 'basics.summary') sectionName = 'summary'
-      if (hiddenSections.includes(sectionName)) {
-        updateVisibilityButtonIcon(btn, sectionName)
+    // Sub-items for object sections with nested arrays/objects
+    if (name === 'basics' && sectionData && typeof sectionData === 'object') {
+      const subUl = createElement('ul', { parent: li })
+      if (sectionData.location) {
+        const subLi = createElement('li', { parent: subUl })
+        createElement('a', {
+          text: 'Location',
+          attrs: { href: `#section-basics-location` },
+          parent: subLi,
+        })
+      }
+      if (sectionData.profiles && sectionData.profiles.length) {
+        const subLi = createElement('li', { parent: subUl })
+        createElement('a', {
+          text: `Profiles (${sectionData.profiles.length})`,
+          attrs: { href: `#section-basics-profiles` },
+          parent: subLi,
+        })
       }
     }
+
+    // Sub-items for array sections — show item titles
+    if (sectionSchema.type === 'array' && Array.isArray(sectionData) && sectionData.length > 0) {
+      const subUl = createElement('ul', { parent: li })
+      sectionData.forEach((item, idx) => {
+        const title = getItemTitle(item, name, idx)
+        const subLi = createElement('li', { parent: subUl })
+        createElement('a', {
+          text: title,
+          attrs: { href: `#section-${name}` },
+          parent: subLi,
+        })
+      })
+    }
+  }
+
+  setupScrollTracking()
+}
+
+function setupScrollTracking() {
+  if (scrollObserver) scrollObserver.disconnect()
+
+  const middleCol = document.querySelector('.middle')
+  const tocLinks = tocEl.querySelectorAll('a')
+  const sections = containerEl.querySelectorAll('.cv-section')
+
+  if (!sections.length) return
+
+  scrollObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        const id = entry.target.id
+        tocLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${id}`)
+        })
+      }
+    }
+  }, {
+    root: middleCol,
+    rootMargin: '-10% 0px -80% 0px',
+    threshold: 0,
+  })
+
+  sections.forEach(s => scrollObserver.observe(s))
+}
+
+// Smooth scroll for TOC links
+tocEl.addEventListener('click', (e) => {
+  const link = e.target.closest('a')
+  if (!link) return
+  e.preventDefault()
+  const target = document.querySelector(link.getAttribute('href'))
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+})
+
+// Debounce TOC rebuilds
+let tocTimer = null
+function scheduleTOCRebuild(cvData) {
+  clearTimeout(tocTimer)
+  tocTimer = setTimeout(() => buildTOC(cvData), 300)
+}
+
+// --- Init editor ---
+const cvEditor = new CVEditor(containerEl, jsoncvSchema, data, {
+  onDataChange(data) {
+    const previewData = structuredClone(data)
+    if (!previewData.meta) previewData.meta = {}
+    previewData.meta.theme = getTheme()
+    const json = JSON.stringify(previewData, null, 2)
+    if (outputJsonContent) outputJsonContent.textContent = json
+    saveCVJSON(json)
+    scheduleTOCRebuild(data)
+  }
+})
+
+// Initial TOC build
+buildTOC(data)
+
+// Populate JSON preview on load (onDataChange doesn't fire during constructor)
+{
+  const previewData = structuredClone(data)
+  if (!previewData.meta) previewData.meta = {}
+  previewData.meta.theme = getTheme()
+  if (outputJsonContent) outputJsonContent.textContent = JSON.stringify(previewData, null, 2)
+}
+
+// --- Sidebar actions ---
+
+// Toggle preview/JSON
+document.getElementById('fn-toggle-preview').addEventListener('click', () => {
+  const isHtmlHidden = outputHtmlIframe.style.display === 'none'
+  if (isHtmlHidden || !outputHtmlIframe.offsetHeight) {
+    outputJsonEl.style.display = 'none'
+    outputHtmlIframe.style.display = ''
+  } else {
+    outputHtmlIframe.style.display = 'none'
+    outputJsonEl.style.display = ''
+  }
+})
+
+// Copy JSON
+document.getElementById('fn-copy-json').addEventListener('click', (e) => {
+  const btn = e.currentTarget
+  const json = outputJsonContent?.textContent || ''
+  navigator.clipboard.writeText(json).then(() => {
+    const orig = btn.textContent
+    btn.textContent = 'Copied!'
+    setTimeout(() => { btn.textContent = orig }, 1500)
   })
 })
 
-function getEditorData() {
-  const data = editor.getValue()
-  // Add theme to preview (same as download)
-  const previewData = {...data}
-  if (!previewData.meta) previewData.meta = {}
-  previewData.meta.theme = getTheme()
-  
-  return {
-    data,
-    json: JSON.stringify(previewData, null, 2),
-  }
-}
-
-const $outputJSON = $('.output-json')
-const $outputHTML = $('.output-html')
-const outputHTMLIframe = $outputHTML.get(0)
-
-// listen to change
-editor.on('change', () => {
-  console.log('on editor change')
-  const {json} = getEditorData()
-  $outputJSON.text(json)
-
-  // save to localstorage
-  saveCVJSON(json)
-})
-
-// actions
-const $btnTogglePreview = $('#fn-toggle-preview')
-const $btnNewData = $('#fn-new-data')
-const $btnUploadData = $('#fn-upload-data')
-const $inputUploadData = $('input[name=upload-data]')
-const $btnDownloadJSON = $('#fn-download-json')
-const $btnDownloadHTML = $('#fn-download-html')
-const $btnLoadSample = $('#fn-load-sample')
-const $btnPrintPreview = $('#fn-print-preview')
-const $inputColorPicker = $('#fn-color-picker')
-const $colorValue = $('.color-picker .value')
-
-const isElementHidden = elt =>
-	! (elt.offsetWidth || elt.offsetHeight || elt.getClientRects().length);
-$btnTogglePreview.on('click', () => {
-  if (isElementHidden(outputHTMLIframe)) {
-    $outputJSON.hide()
-    $outputHTML.show()
-  } else {
-    $outputHTML.hide()
-    $outputJSON.show()
-  }
-})
-
-$btnNewData.on('click', () => {
-  if (!confirm('Are you sure to create an empty CV? Your current data will be lost.')) return
-
+// New data
+document.getElementById('fn-new-data').addEventListener('click', () => {
+  if (!window.confirm('Create an empty CV? Current data will be lost.')) return
   const v = propertiesToObject(jsoncvSchema.properties)
-  console.log('new value', v)
-  editor.setValue(v)
+  cvEditor.setValue(v)
 })
 
-$btnUploadData.on('click', () => {
-  if (!confirm('Are you sure to upload an existing CV data? Your current data will be replaced.')) return
-  $inputUploadData.trigger('click')
+// Open existing file
+const uploadInput = document.querySelector('input[name=upload-data]')
+
+document.getElementById('fn-upload-data').addEventListener('click', () => {
+  // Reset so selecting the same file triggers change
+  uploadInput.value = ''
+  uploadInput.click()
 })
 
-$inputUploadData.on('change', () => {
-  const files = $inputUploadData.get(0).files
+uploadInput.addEventListener('change', (e) => {
+  const files = e.target.files
   if (files.length === 0) return
 
   const reader = new FileReader()
-  reader.onload = (e) => {
-    let data
+  reader.onload = (ev) => {
     try {
-      data = JSON.parse(e.target.result)
-    } catch (e) {
-      const error = 'Invalid JSON file: ' + new String(e).toString()
-      console.log(error)
-      throw e
+      const parsed = JSON.parse(ev.target.result)
+      cvEditor.setValue(parsed)
+    } catch (err) {
+      console.error('Failed to load file:', err)
+      alert('Invalid JSON file: ' + err.message)
     }
-    editor.setValue(data)
   }
-
   reader.readAsText(files[0])
 })
 
+// Download
 function downloadCV(contentType) {
-  const data = editor.getValue()
+  const data = cvEditor.getValue()
   const meta = data.meta || (data.meta = {})
   const title = getCVTitle(data)
 
-  // update data
   meta.lastModified = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]')
   meta.theme = getTheme()
 
-  // download
   if (contentType === 'json') {
-    let filename = `${title}.json`
-    downloadContent(filename, JSON.stringify(data, null, 2))
+    downloadContent(`${title}.json`, JSON.stringify(data, null, 2))
   } else if (contentType === 'html') {
-    let filename = `${title}.html`
-    downloadIframeHTML(filename, outputHTMLIframe)
+    downloadIframeHTML(`${title}.html`, outputHtmlIframe)
   }
-
-  // update editor value
-  editor.getEditor('root.meta').setValue(meta)
 }
 
-$btnDownloadJSON.on('click', () => {
-  downloadCV('json')
+document.getElementById('fn-download-json').addEventListener('click', () => downloadCV('json'))
+document.getElementById('fn-download-html').addEventListener('click', () => downloadCV('html'))
+
+// Load sample
+document.getElementById('fn-load-sample').addEventListener('click', () => {
+  if (!window.confirm('Load sample data? Current data will be replaced.')) return
+  cvEditor.setValue(sampleModule.default)
 })
 
-$btnDownloadHTML.on('click', () => {
-  downloadCV('html')
+// Print preview
+document.getElementById('fn-print-preview').addEventListener('click', () => {
+  outputHtmlIframe.contentWindow.print()
 })
 
-$btnLoadSample.on('click', () => {
-  if (!confirm('Are you sure to load sample data? Your current data will be replaced.')) return
+// --- Color picker ---
+const colorPickerEl = document.getElementById('fn-color-picker')
+const colorValueEl = document.querySelector('.color-picker .value')
 
-  editor.setValue(sampleModule.default)
-})
-
-$btnPrintPreview.on('click', () => {
-  outputHTMLIframe.contentWindow.print()
-})
-
-
-// primary color
-
-$inputColorPicker.on('change', (e) => {
-  const color = e.target.value
-  console.log('color', color)
-  $colorValue.text(color)
-  savePrimaryColor(color)
+colorPickerEl.addEventListener('change', (e) => {
+  colorValueEl.textContent = e.target.value
+  savePrimaryColor(e.target.value)
 })
 
 const primaryColor = getPrimaryColor()
-$colorValue.text(primaryColor)
-$inputColorPicker.val(primaryColor)
+colorValueEl.textContent = primaryColor
+colorPickerEl.value = primaryColor
 
-// theme selector
-const $selectTheme = $('#fn-theme-select')
+// --- Theme selector ---
+const themeSelectEl = document.getElementById('fn-theme-select')
 const themeNames = getThemeNames()
 
-// populate theme options
 themeNames.forEach(name => {
   const option = document.createElement('option')
   option.value = name
   option.textContent = name
-  $selectTheme.get(0).appendChild(option)
+  themeSelectEl.appendChild(option)
 })
 
-// set current theme
-const currentTheme = getTheme()
-$selectTheme.val(currentTheme)
-
-$selectTheme.on('change', (e) => {
-  const theme = e.target.value
-  console.log('theme', theme)
-  saveTheme(theme)
-})
+themeSelectEl.value = getTheme()
+themeSelectEl.addEventListener('change', (e) => saveTheme(e.target.value))

@@ -17,46 +17,59 @@
         <a href="/"><span class="t-jsoncv"><span class="t-json">JSON</span>CV</span></a>
         <div style="padding: 2px 5px;">Editor</div>
       </div>
-      <div class="editor-toc"></div>
       <div class="app-actions">
-        <label for="fn-color-picker" class="color-picker">
-          <div>Primary color</div>
-          <div class="color-area">
-            <input type="color" id="fn-color-picker">
-            <span class="value">#aaaaaa</span>
+        <div class="sidebar-group">
+          <div class="sidebar-group__label">Settings</div>
+          <label for="fn-color-picker" class="color-picker">
+            <div>Primary color</div>
+            <div class="color-area">
+              <input type="color" id="fn-color-picker">
+              <span class="value">#aaaaaa</span>
+            </div>
+          </label>
+          <label for="fn-theme-select" class="theme-select">
+            <div>Theme</div>
+            <select id="fn-theme-select"></select>
+          </label>
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group__label">Export</div>
+          <div class="sidebar-btn-row">
+            <button id="fn-download-json" class="sidebar-btn" title="Download JSON">&#8595; JSON</button>
+            <button id="fn-download-html" class="sidebar-btn" title="Download HTML">&#8595; HTML</button>
+            <button id="fn-print-preview" class="sidebar-btn" title="Print / Save as PDF">&#128424; PDF</button>
           </div>
-        </label>
-        <label for="fn-theme-select" class="theme-select">
-          <div>Theme</div>
-          <select id="fn-theme-select"></select>
-        </label>
-        <button id="fn-toggle-preview">Preview/JSON</button>
-        <button id="fn-download-json">Download JSON</button>
-        <button id="fn-download-html">Download HTML</button>
-        <button onclick="dialog.showModal()">PDF?</button>
-        <button id="fn-new-data" class="-green">New Data</button>
-        <button id="fn-upload-data" class="-green">Upload Data</button>
-        <input type="file" name="upload-data" style="display: none;">
-        <button id="fn-load-sample" class="-green">Load Sample</button>
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group__label">Data</div>
+          <div class="sidebar-btn-row">
+            <button id="fn-new-data" class="sidebar-btn" title="Create empty CV">+ New</button>
+            <button id="fn-upload-data" class="sidebar-btn" title="Open existing JSON file">&#8593; Open</button>
+            <button id="fn-load-sample" class="sidebar-btn" title="Load sample data">&#9733; Sample</button>
+          </div>
+          <input type="file" name="upload-data" style="display: none;">
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group__label">View</div>
+          <div class="sidebar-btn-row">
+            <button id="fn-toggle-preview" class="sidebar-btn">Preview / JSON</button>
+          </div>
+        </div>
       </div>
+      <div class="editor-toc"></div>
     </div>
     <div class="middle column editor-container"></div>
     <div class="right column">
-      <div class="output-json code-block" style="display: none;"></div>
+      <div class="output-json" style="display: none;">
+        <div class="output-json__toolbar">
+          <span class="output-json__title">JSON Preview</span>
+          <button id="fn-copy-json" class="output-json__copy-btn" title="Copy JSON to clipboard">Copy</button>
+        </div>
+        <pre class="output-json__content code-block"></pre>
+      </div>
       <iframe class="output-html" src="/preview/" frameborder="0"></iframe>
     </div>
   </div>
-
-  <dialog id="dialog">
-    <form method="dialog">
-      <p>The HTML that JSONCV generates is optimized for printing in an A4 letter, so it can be used to create a well-formatted PDF document.</p>
-      <p>You can first click "Download HTML", then open the HTML in a browser and choose "Print" from the menu (or press ⌘+P), it will open a modal where you should find the option to save it as a PDF.</p>
-      <p>For browser selection, Chrome's PDF has a better rendering effect, while Firefox's PDF is smaller and has better support for copying text, choose according to your needs.</p>
-      <button>OK</button>
-      <p>You can directly open the print dialog for the preview by clicking the button below:</p>
-      <button id="fn-print-preview">Print the preview</button>
-    </form>
-  </dialog>
 
   <script src="./editor/main.js" type="module"></script>
 </body>

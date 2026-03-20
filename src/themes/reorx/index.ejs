@@ -470,25 +470,32 @@ function date(item, level, fieldName = 'date') {
 <% } %>
 
 <!-- meta -->
-<% if (cv.meta && !fn.isHidden('meta')) { %>
+<%
+  const showVersion = cv.meta?.version && !fn.isFieldHidden('meta', 'version');
+  const showLastMod = cv.meta?.lastModified && !fn.isFieldHidden('meta', 'lastModified');
+  const hasFooterContent = !isPreview || showVersion || showLastMod;
+%>
+<% if (cv.meta && cv.meta.showFooter !== false && hasFooterContent) { %>
 <footer class="pdf-footer">
-  <% 
+  <%
     const resumeName = cv.meta.name || cv.basics.name || 'Resume';
     const pdfFilename = cv.meta.version ? `${resumeName}-${cv.meta.version}.pdf` : `${resumeName}.pdf`;
   %>
   <% if (!isPreview) { %>
     <a href="/<%= pdfFilename %>" download class="footer-link">Download PDF</a>
-    <span class="footer-separator">•</span>
-    <a href="https://<%= siteUrl %>" target="_blank" rel="noopener noreferrer" class="footer-link"><%= siteUrl %></a>
-    <% if (cv.meta.version || cv.meta.lastModified) { %>
+    <% if (siteUrl) { %>
+      <span class="footer-separator">•</span>
+      <a href="https://<%= siteUrl %>" target="_blank" rel="noopener noreferrer" class="footer-link"><%= siteUrl %></a>
+    <% } %>
+    <% if (showVersion || showLastMod) { %>
       <span class="footer-separator">•</span>
     <% } %>
   <% } %>
-  <% if (cv.meta.version) { %>
+  <% if (showVersion) { %>
     <span class="footer-meta">Version: <%= cv.meta.version %></span>
   <% } %>
-  <% if (cv.meta.lastModified) { %>
-    <% if (cv.meta.version) { %><span class="footer-separator">•</span><% } %>
+  <% if (showLastMod) { %>
+    <% if (showVersion) { %><span class="footer-separator">•</span><% } %>
     <span class="footer-meta">Last modified: <%= cv.meta.lastModified.slice(0, 10) %></span>
   <% } %>
 </footer>

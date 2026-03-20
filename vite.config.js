@@ -13,7 +13,7 @@ const require = createRequire(import.meta.url);
 
 const dataFilename = process.env.DATA_FILENAME || './sample.cv.json'
 const outDir = process.env.OUT_DIR || 'dist'
-const siteUrl = process.env.SITE_URL || 'xenking.pro'
+const siteUrl = process.env.SITE_URL || ''
 
 const data = require(dataFilename)
 const renderData = getRenderData(data, { siteUrl })

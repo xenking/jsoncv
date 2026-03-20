@@ -179,7 +179,7 @@ for (const file of resumeFiles) {
   
   try {
     // Build HTML using vite with theme from resume meta
-    const siteUrl = process.env.SITE_URL || 'xenking.pro';
+    const siteUrl = resumeData.meta?.siteUrl || process.env.SITE_URL || '';
     execSync(
       `DATA_FILENAME="${resumePath}" OUT_DIR="${tempOutDir}" THEME="${theme}" SITE_URL="${siteUrl}" pnpm run build`,
       { stdio: 'pipe', encoding: 'utf8' }

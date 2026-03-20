@@ -14,9 +14,10 @@ export function getRenderData(cvData, options = {}) {
       noSchemaURL,
       renderMarkdown,
       isHidden: (section) => isHiddenSection(cvData, section),
+      isFieldHidden: (section, field) => isHiddenField(cvData, section, field),
     },
     varNamePrimaryColor,
-    siteUrl: options.siteUrl || 'xenking.pro',
+    siteUrl: cvData.meta?.siteUrl || options.siteUrl || '',
     isPreview: options.isPreview || false,
   }
 }
@@ -24,6 +25,11 @@ export function getRenderData(cvData, options = {}) {
 function isHiddenSection(cv, section) {
   const hiddenSections = cv.meta?.hiddenSections || []
   return hiddenSections.includes(section)
+}
+
+function isHiddenField(cv, section, field) {
+  const hiddenFields = cv.meta?.hiddenFields?.[section] || []
+  return hiddenFields.includes(field)
 }
 
 /* fn */

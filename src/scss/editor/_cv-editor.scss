@@ -1,0 +1,778 @@
+@use '../vars';
+
+// ═══════════════════════════════════════════
+// Notion-like CV Editor Styles
+// ═══════════════════════════════════════════
+
+// ── Custom Scrollbars ──
+
+.column {
+  scrollbar-width: thin;
+  scrollbar-color: var(--grey-1) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--grey-1);
+    border-radius: 3px;
+
+    &:hover {
+      background: #bbb;
+    }
+  }
+}
+
+.editor-container {
+  font-size: 14px;
+  padding: var(--gap) 0;
+}
+
+// ── Section Card ──
+
+.cv-section {
+  margin-bottom: 2px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: var(--grey-2);
+  }
+
+  &--collapsed {
+    .cv-section__body {
+      display: none;
+    }
+    .cv-section__chevron svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &--hidden {
+    .cv-section__title {
+      text-decoration: line-through;
+      opacity: 0.4;
+    }
+    .cv-section__count {
+      opacity: 0.3;
+    }
+  }
+
+  &--ghost {
+    opacity: 0.2;
+    background: var(--blue-0);
+    border-color: var(--blue-1);
+  }
+  &--chosen {
+    border-color: #228be6;
+  }
+  &--drag {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+  &--pinned {
+    .cv-section__drag-handle {
+      display: none;
+    }
+  }
+}
+
+.cv-section__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 6px;
+
+  &:hover {
+    background: var(--grey-0);
+  }
+}
+
+.cv-section__drag-handle {
+  cursor: grab;
+  opacity: 0;
+  color: var(--color-text-dim);
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+
+  .cv-section:hover & {
+    opacity: 0.3;
+  }
+  &:hover {
+    opacity: 0.7 !important;
+  }
+  &:active {
+    cursor: grabbing;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.cv-section__chevron {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s;
+  }
+}
+
+.cv-section__title {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  color: #333;
+}
+
+.cv-section__count {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+}
+
+.cv-section__actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+
+  .cv-section__header:hover & {
+    opacity: 1;
+  }
+}
+
+.cv-section__add-btn {
+  @include vars.button-base;
+  background: transparent;
+  border: 1px dashed var(--grey-2);
+  border-radius: 4px;
+  height: 22px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+.cv-section__visibility-btn {
+  @include vars.button-base;
+  background: transparent;
+  border: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--color-text-dim);
+
+  &:hover {
+    background: var(--grey-1);
+    color: #333;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.cv-section__props-btn {
+  @include vars.button-base;
+  background: transparent;
+  border: none;
+  padding: 3px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-dim);
+  position: relative;
+
+  &:hover {
+    background: var(--grey-1);
+    color: #333;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.cv-section__props-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--grey-2);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 6px 0;
+  min-width: 160px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cv-section__props-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #444;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--grey-0);
+  }
+
+  input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+  }
+}
+
+.cv-section__body {
+  padding: 0 10px 10px 34px;
+}
+
+// ── Field ──
+
+.cv-field {
+  margin-bottom: 6px;
+
+  &--textarea {
+    margin-bottom: 8px;
+  }
+  &--collapsed .cv-field__nested {
+    display: none;
+  }
+  &--collapsed .cv-field__chevron {
+    transform: rotate(-90deg);
+  }
+}
+
+.cv-field__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-dim);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.cv-field__label--collapsible {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.cv-field__chevron {
+  font-size: 10px;
+  transition: transform 0.2s;
+  color: var(--color-text-dim);
+}
+
+.cv-field__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  border: 1px solid var(--grey-2);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: var(--font-default);
+  background: transparent;
+  transition: all 0.15s;
+  outline: none;
+  line-height: 1.4;
+
+  &:hover {
+    border-color: #ccc;
+    background: var(--grey-0);
+  }
+  &:focus {
+    background: #fff;
+    border-color: #228be6;
+    box-shadow: 0 0 0 2px rgba(34, 139, 230, 0.12);
+  }
+}
+
+textarea.cv-field__input {
+  resize: vertical;
+  min-height: 32px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.cv-field__desc {
+  display: none;
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 1px;
+
+  .cv-field:focus-within & {
+    display: block;
+  }
+}
+
+.cv-field__error {
+  font-size: 11px;
+  color: #e03131;
+  margin-top: 2px;
+}
+
+// ── Nested Object ──
+
+.cv-field--object {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.cv-field__nested {
+  padding-left: 14px;
+  border-left: 2px solid var(--grey-2);
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+// ── String Array (tags/keywords/highlights) ──
+
+.cv-tag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cv-tag-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 1px 0;
+  border-radius: 4px;
+  transition: background 0.1s;
+
+  &:hover {
+    background: var(--grey-0);
+  }
+  &--ghost {
+    opacity: 0.3;
+    background: var(--blue-0);
+  }
+}
+
+.cv-tag-item__handle {
+  cursor: grab;
+  opacity: 0;
+  padding: 4px 2px;
+  color: var(--color-text-dim);
+  transition: opacity 0.15s;
+  font-size: 11px;
+  flex-shrink: 0;
+  user-select: none;
+
+  .cv-tag-item:hover & {
+    opacity: 0.4;
+  }
+  &:hover {
+    opacity: 0.8 !important;
+  }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.cv-tag-item__input {
+  flex: 1;
+  border: 1px solid var(--grey-2);
+  background: transparent;
+  font-size: 13px;
+  font-family: var(--font-default);
+  padding: 4px 6px;
+  border-radius: 3px;
+  outline: none;
+  line-height: 1.4;
+  resize: vertical;
+  overflow: hidden;
+
+  &:focus {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(34, 139, 230, 0.12);
+  }
+}
+
+.cv-tag-item__delete {
+  opacity: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  color: var(--color-text-dim);
+  border-radius: 3px;
+  font-size: 14px;
+  flex-shrink: 0;
+  line-height: 1;
+
+  .cv-tag-item:hover & {
+    opacity: 0.4;
+  }
+  &:hover {
+    opacity: 1 !important;
+    background: var(--red-0);
+    color: #e03131;
+  }
+}
+
+// Label row with inline add button
+.cv-field__label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.cv-tag-list__add-inline {
+  @include vars.button-base;
+  background: transparent;
+  border: 1px dashed var(--grey-2);
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  font-size: 13px;
+  color: var(--color-text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+
+  .cv-field--tags:hover & {
+    opacity: 0.6;
+  }
+  &:hover {
+    opacity: 1 !important;
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+// Add button at bottom of string arrays
+.cv-tag-list__add-bottom {
+  @include vars.button-base;
+  background: transparent;
+  border: 1px dashed var(--grey-2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-text-dim);
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+// Empty-state add button for string arrays (courses, highlights, keywords, etc.)
+.cv-tag-list__add-empty {
+  @include vars.button-base;
+  background: transparent;
+  border: 1px dashed var(--grey-2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-text-dim);
+  width: 100%;
+  text-align: center;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+}
+
+// ── Array List ──
+
+.cv-array__items {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-array__item {
+  border: 1px solid var(--grey-2);
+  border-radius: 6px;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: #ccc;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  &--ghost {
+    opacity: 0.25;
+    background: var(--blue-0);
+    border-color: var(--blue-1);
+  }
+  &--drag {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fff;
+  }
+  &--collapsed .cv-array__item-body {
+    display: none;
+  }
+}
+
+.cv-array__item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 6px;
+
+  &:hover {
+    background: var(--grey-0);
+  }
+}
+
+.cv-array__drag-handle {
+  cursor: grab;
+  opacity: 0;
+  color: var(--color-text-dim);
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+
+  .cv-array__item:hover & {
+    opacity: 0.3;
+  }
+  &:hover {
+    opacity: 0.7 !important;
+  }
+  &:active {
+    cursor: grabbing;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.cv-array__item-title-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cv-array__item-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cv-array__item-subtitle {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cv-array__item-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+
+  .cv-array__item:hover & {
+    opacity: 1;
+  }
+
+  button {
+    @include vars.button-base;
+    background: transparent;
+    border: none;
+    padding: 3px;
+    border-radius: 4px;
+    color: var(--color-text-dim);
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    &:hover {
+      background: var(--grey-1);
+    }
+    &.cv-array__btn--delete:hover {
+      background: var(--red-0);
+      color: #e03131;
+    }
+  }
+}
+
+.cv-array__item-body {
+  padding: 2px 10px 10px 32px;
+}
+
+// ── Item Props Dropdown ──
+
+.cv-array__btn--props {
+  position: relative;
+}
+
+.cv-array__props-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--grey-2);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 6px 0;
+  min-width: 160px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cv-array__props-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #444;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--grey-0);
+  }
+
+  input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+  }
+}
+
+// ── Insert Zone ──
+
+.cv-array__insert-zone {
+  height: 2px;
+  position: relative;
+  transition: height 0.2s;
+  z-index: 1;
+
+  &:hover {
+    height: 22px;
+  }
+}
+
+.cv-array__insert-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  background: var(--blue-0);
+  border: 1px dashed #228be6;
+  border-radius: 10px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #228be6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.15s;
+
+  .cv-array__insert-zone:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: #228be6;
+    color: #fff;
+    border-style: solid;
+  }
+}
+
+.cv-array__add-btn {
+  @include vars.button-base;
+  background: transparent;
+  border: 1px dashed var(--grey-2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-text-dim);
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
+
+  &:hover {
+    border-color: #228be6;
+    color: #228be6;
+    background: rgba(34, 139, 230, 0.04);
+  }
+
+  &--empty {
+    margin-top: 0;
+  }
+}

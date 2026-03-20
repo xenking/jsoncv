@@ -534,6 +534,28 @@
           "description": "The theme to use for rendering the CV. Available themes: xenking, reorx",
           "enum": ["xenking", "reorx"],
           "default": "xenking"
+        },
+        "sectionOrder": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Custom ordering of CV sections in the editor and rendered output"
+        },
+        "siteUrl": {
+          "type": "string",
+          "description": "URL shown in the CV footer. If empty, the footer link is hidden."
+        },
+        "showFooter": {
+          "type": "boolean",
+          "description": "Show the footer with download link, site URL and last modified date in the rendered CV. Default: true",
+          "default": true
+        },
+        "hiddenFields": {
+          "type": "object",
+          "description": "Map of section keys to arrays of field names to hide in the editor and rendered CV",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
         }
       }
     }

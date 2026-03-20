@@ -26,7 +26,7 @@
     {
       "name": "Vertex",
       "location": "Cyprus",
-      "position": "Project Manager",
+      "position": "Delivery Manager",
       "url": "",
       "startDate": "2024-09-01",
       "summary": "Scope: Lead delivery and roadmap planning for one of Vertex’s fintech products, coordinating product, engineering, business, support, and integration streams across releases, operational processes, and growth.",
@@ -239,6 +239,7 @@
     "canonical": "https://cv.oliviadilan.com",
     "lastModified": "2026-03-20T19:53:43+11:00Z",
     "hiddenSections": ["interests"],
-    "theme": "xenking"
+    "theme": "xenking",
+    "showFooter": ""
   }
 }
