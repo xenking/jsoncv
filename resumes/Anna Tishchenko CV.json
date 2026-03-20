@@ -6,7 +6,7 @@
     "email": "job@oliviadilan.com",
     "phone": "",
     "url": "",
-    "summary": "Results-oriented Project Manager with PMP® certification from PMI, specializing in IT. Extensive cross-functional experience and a proven ability to deliver complex projects on time and within budget. Known for leading diverse teams, optimizing processes, and ensuring high client satisfaction, excelling in driving project success and achieving exceptional results.",
+    "summary": "Results-oriented Project Manager with PMP® certification from PMI, specialising in IT. Proven track record of delivering complex cross-functional projects on time and within budget across client-facing and internal initiatives. Known for leading diverse teams, optimising delivery processes, and maintaining high client satisfaction through structured planning, stakeholder alignment, and consistent execution.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -24,16 +24,33 @@
   },
   "work": [
     {
+      "name": "Vertex",
+      "location": "Cyprus",
+      "position": "Project Manager",
+      "url": "",
+      "startDate": "2024-09-01",
+      "summary": "Scope: Lead delivery and roadmap planning for one of Vertex’s fintech products, coordinating product, engineering, business, support, and integration streams across releases, operational processes, and growth.",
+      "highlights": [
+        "Own roadmap planning across sprint, quarterly, and annual horizons, aligning business priorities, release scope, and execution across product and technical teams.",
+        "Manage and prioritise multiple backlogs spanning provider integrations, client-facing features, and core product initiatives to support release delivery and operational scaling.",
+        "Coordinate complex provider-side and client-side integrations, acting as a key cross-functional point of contact across clients, support, business, and engineering teams.",
+        "Formalise core operating processes for integrations, support, and card-provider workflows; drive the creation of external API documentation and Jira workflow automation.",
+        "Collect and track business, financial, and system health metrics; prepare investor-facing reports and support product visibility in quarterly company reviews and all-hands.",
+        "Contribute to PMO and cross-company process standardisation; support headcount and infrastructure planning by consolidating staffing and cost inputs for approval."
+      ]
+    },
+    {
       "name": "SOFTSWISS",
       "position": "Project Manager",
       "url": "",
       "startDate": "2023-05-01",
-      "summary": "Responsibilities: Client requirements gathering, project planning and scheduling, cross-functional team coordination, risk assessment and mitigation, technical solution implementation, B2C and B2B project management",
+      "endDate": "2024-09-01",
+      "summary": "Scope: Managed client-facing B2B/B2C projects for a digital platform, translating client requirements into scoped solutions, delivery plans, and launch-ready configurations.",
       "highlights": [
-        "Successfully managed projects ranging from three to eight months using different methodologies (Agile, Hybrid, Waterfall), consistently delivering on time and within budget",
-        "Maintained a 95% client satisfaction rate, resulting in repeat business and long-term client relationships",
-        "Demonstrated technical proficiency by independently configuring and customizing client websites",
-        "Ensured effective risk management and stakeholder communication, reducing project disruptions by 30% and maximizing efficiency"
+        "Delivered 3–8 month B2B/B2C implementation projects across Agile, hybrid, and Waterfall models, consistently on time and within budget.",
+        "Maintained 95% client satisfaction by aligning client requirements, delivery constraints, and cross-functional execution.",
+        "Independently customised and tested client website configurations, shortening the path from approved requirements to launch-ready implementations.",
+        "Reduced delivery disruptions by 30% through proactive risk management, dependency tracking, and stakeholder communication."
       ]
     },
     {
@@ -42,24 +59,25 @@
       "url": "",
       "startDate": "2022-04-01",
       "endDate": "2023-03-01",
-      "summary": "Responsibilities: Client communication in Russian and English, resource allocation across multiple projects, internal and external reporting, project documentation, team onboarding, process modernization",
+      "summary": "Scope: Led delivery across multiple IT initiatives, balancing client communication, resource allocation, reporting, onboarding, and process improvement in a multi-project environment.",
       "highlights": [
-        "Successfully led teams in delivering high-value IT projects simultaneously, achieving a customer satisfaction rating of 90% and on-time delivery",
-        "Strengthened project management processes across the company, implementing Project Management Office, improving project estimation accuracy by 25%, and reducing project delivery time by 20%",
-        "Effectively managed resources across multiple projects, making informed trade-offs that reduced conflicts and increased productivity"
+        "Coordinated up to 10 concurrent IT initiatives at different stages and levels of intensity, maintaining on-time delivery and 90% customer satisfaction.",
+        "Designed and embedded project delivery processes that improved estimation accuracy by 25% and reduced delivery time by 20%.",
+        "Built a high-level pre-contract project estimation framework, enabling more accurate timeline forecasting before deal sign-off.",
+        "Managed resource allocation and delivery trade-offs across parallel projects, reducing conflicts and improving execution consistency."
       ]
     },
     {
       "name": "Contented",
-      "position": "Product Manager",
+      "position": "Business Analyst",
       "url": "",
       "startDate": "2021-11-01",
       "endDate": "2022-03-01",
-      "summary": "",
+      "summary": "Scope: Led research and launch preparation for a new educational product in interior design, shaping target audience insights, product positioning, and go-to-market inputs.",
       "highlights": [
-        "Developed and launched a successful educational product, generating $10,000+ in revenue within a month",
-        "Conducted comprehensive market and competitive analysis, and identified and captured untapped market opportunities",
-        "Established and maintained a strong working relationship with internal and external stakeholders, resulting in 80% user satisfaction and excellent feedback from sponsors"
+        "Conducted market and competitor research, user surveys, and interviews with potential customers to validate demand and identify untapped opportunities.",
+        "Defined the target audience based on working hypotheses and synthesised research findings into insights and recommendations for product positioning and marketing strategy.",
+        "Supported the launch of a new educational product that generated $10,000+ in revenue within its first month."
       ]
     },
     {
@@ -68,11 +86,12 @@
       "url": "",
       "startDate": "2021-06-01",
       "endDate": "2021-10-01",
-      "summary": "",
+      "summary": "Scope: Managed product delivery for a B2B product, owning backlog prioritisation, sprint and release planning, and cross-functional execution from ideation through launch.",
       "highlights": [
-        "Led a cross-functional team of DevOps, analysts, and developers in launching a new product with an 80% acceptance rate after testing",
-        "Successfully managed the product feature development lifecycle, from ideation to launch, ensuring a seamless and efficient process",
-        "Improved product documentation, leading to a 20% reduction in errors on the customer's side, and increased developer engagement"
+        "Led a cross-functional team of DevOps, analysts, and developers to maintain a new B2B product.",
+        "Owned both the product backlog and implementation project backlogs, prioritising work and planning team capacity across sprints and releases.",
+        "Managed the feature delivery lifecycle from ideation to launch, aligning business needs, implementation scope, and execution across teams.",
+        "Improved product documentation and document workflows, reducing customer-side errors and increasing developer engagement."
       ]
     },
     {
@@ -81,25 +100,33 @@
       "url": "",
       "startDate": "2019-04-01",
       "endDate": "2021-05-01",
-      "summary": "",
+      "summary": "Scope: Managed software delivery projects, supported team growth, and maintained client communication across ongoing engagements.",
       "highlights": [
-        "Successfully managed and delivered multiple complex software projects simultaneously, ensuring adherence to project timelines and budgets",
-        "Played a key role in building and onboarding a team of high-performing developers, resulting in increased team efficiencies",
-        "Drove the adoption of new project management processes, resulting in a 30% increase in project delivery efficiency",
-        "Established and maintained excellent relationships with clients, resulting in a repeat business rate of 70%"
+        "Coordinated multiple software projects, keeping delivery on track against timelines, budgets, and stakeholder expectations.",
+        "Supported hiring and onboarding of developers, helping strengthen team capacity and day-to-day execution.",
+        "Improved project delivery processes and maintained strong client relationships, contributing to repeat business."
       ]
     }
   ],
   "education": [
+    {
+      "institution": "Royal Melbourne Institute of Technology (RMIT University)",
+      "url": "",
+      "area": "Business Information Technology",
+      "studyType": "Master",
+      "startDate": "2025-04-01",
+      "score": "",
+      "courses": []
+    },
     {
       "institution": "Tomsk State University of Control Systems and Radioelectronics",
       "url": "",
       "area": "Computer Engineering",
       "studyType": "Bachelor",
       "startDate": "2018-09-01",
-      "endDate": "2022-06-01",
       "score": "",
-      "courses": []
+      "courses": [],
+      "endDate": "2022-06-01"
     },
     {
       "institution": "Project Manager Professional, PMP Exam Preparation Course",
@@ -107,19 +134,19 @@
       "area": "Ivan Selihovkin",
       "studyType": "Course",
       "startDate": "2021-08-01",
-      "endDate": "2022-08-01",
       "score": "",
-      "courses": []
+      "courses": [],
+      "endDate": "2022-08-01"
     },
     {
-      "institution": "IT Management Association Europe",
+      "institution": "Corporate Project Management Training",
       "url": "",
-      "area": "Corporate Project Management Training",
+      "area": "IT Management Association Europe",
       "studyType": "Course",
       "startDate": "2024-02-01",
-      "endDate": "2024-05-01",
       "score": "",
-      "courses": []
+      "courses": [],
+      "endDate": "2024-05-01"
     }
   ],
   "certificates": [
@@ -130,44 +157,65 @@
   ],
   "skills": [
     {
-      "name": "Methodologies",
+      "name": "Product & Delivery",
       "level": "",
+      "keywords": [
+        "Roadmap / Sprint / Release planning",
+        "Backlog prioritisation",
+        "Product delivery",
+        "Requirements & Stakeholder management",
+        "Cross-functional leadership"
+      ]
+    },
+    {
+      "name": "Research & Strategy",
+      "level": "",
+      "keywords": [
+        "Market research",
+        "Competitor analysis",
+        "User interviews & surveys",
+        "Target audience definition",
+        "Product positioning",
+        "Business analysis"
+      ]
+    },
+    {
+      "name": "Operations & Execution",
+      "level": "",
+      "keywords": [
+        "Process standardisation",
+        "Project estimation & forecasting",
+        "Resource allocation",
+        "Risk & Dependency management",
+        "Integration management",
+        "Documentation management",
+        "Jira workflow automation"
+      ]
+    },
+    {
+      "name": "Methods & Tools",
+      "level": "",
+      "summary": "",
       "keywords": [
         "Agile",
-        "Waterfall",
-        "Hybrid model",
+        "Scrum",
         "Kanban",
-        "Scrum"
-      ]
-    },
-    {
-      "name": "Tools",
-      "level": "",
-      "keywords": [
-        "MS Project",
-        "Atlassian Jira",
+        "Waterfall",
+        "Hybrid delivery",
+        "Jira",
         "Confluence",
-        "Trello"
-      ]
-    },
-    {
-      "name": "Soft Skills",
-      "level": "",
-      "keywords": [
-        "Cross-functional team management",
-        "Process management",
-        "Mentoring"
+        "MS Project"
       ]
     }
   ],
   "languages": [
     {
       "language": "English",
-      "fluency": "Advanced (C2)"
+      "fluency": "Advanced"
     },
     {
-      "language": "German",
-      "fluency": "Beginner (A2)"
+      "language": "French",
+      "fluency": "Intermediate"
     },
     {
       "language": "Russian",
@@ -189,11 +237,8 @@
   "meta": {
     "name": "Anna Tishchenko CV",
     "canonical": "https://cv.oliviadilan.com",
-    "lastModified": "2025-06-19T00:00:00+04:00",
-    "hiddenSections": [
-      "interests",
-      "meta"
-    ],
+    "lastModified": "2026-03-20T19:53:43+11:00Z",
+    "hiddenSections": ["interests"],
     "theme": "xenking"
   }
 }
